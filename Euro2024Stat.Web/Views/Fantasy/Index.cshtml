@@ -1,0 +1,54 @@
+﻿@{
+    bool HasFantasyTeam = ViewBag.HasTeam;
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+<style>
+    .fantasy-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: 1.25rem;
+        transition: background-color 0.3s ease;
+    }
+
+        .fantasy-button:hover {
+            background-color: #0056b3;
+        }
+
+        .fantasy-button .icon {
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+</style>
+
+<body>
+    <div class="container mt-5">
+        <div class="d-flex justify-content-center">
+            @if (!HasFantasyTeam)
+            {
+                <a asp-controller="Fantasy" asp-action="CreateTeam" class="fantasy-button">
+                    <i class="bi bi-plus-circle icon"></i>
+                    Create Fantasy Team
+                </a>
+            }
+            <a asp-controller="Fantasy" asp-action="StartGame" class="fantasy-button">
+                <i class="bi bi-plus-circle icon"></i>
+                Start Game
+            </a>
+        </div>
+    </div>
+
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+

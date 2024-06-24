@@ -1,0 +1,255 @@
+﻿@model CountyGroupsViewModel
+
+<style>
+    .custom-card-body {
+        background-color: aliceblue;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+        .custom-card-body:hover {
+            transform: scale(1.1); 
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); 
+        }
+
+    .detail {
+        width:100%;
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-12 text-center">
+        <br /><br />
+        <h3>Groups</h3>
+        <br /><br />
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body custom-card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>A</th>                                 
+                                    <th>Country</th>
+                                    <th>Matches</th>
+                                    <th>GF</th>
+                                    <th>GA</th>
+                                    <th>Point</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var country in Model.GroupA)
+                                {
+                                    <tr>                                       
+                                        <td>
+                                            <img src="@Url.Content($"~/img/Country/{country.ID}/{country.ID}.jpg")" alt="@country.ID" height="20" width="30" />
+                                        </td>
+                                        <td>@country.CountryName</td>
+                                        <td>@country.Matches</td>
+                                        <td>@country.GoalsFor</td>
+                                        <td>@country.GoalsAgainst</td>
+                                        <td>@country.Point</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <a class="btn btn-success detail" asp-controller="Match" asp-action="GroupMatches" asp-route-groupId="A">
+                            <i class="bi bi-pencil-square">Details</i>
+                        </a>
+                    </div>
+                   
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body custom-card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>B</th>
+                                    <th>Country</th>
+                                    <th>Matches</th>
+                                    <th>GF</th>
+                                    <th>GA</th>
+                                    <th>Point</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var country in Model.GroupB)
+                                {
+                                    <tr>
+                                        <td>
+                                            <img src="@Url.Content($"~/img/Country/{country.ID}/{country.ID}.jpg")" alt="@country.ID" height="20" width="30" />
+                                        </td>
+                                        <td>@country.CountryName</td>
+                                        <td>@country.Matches</td>
+                                        <td>@country.GoalsFor</td>
+                                        <td>@country.GoalsAgainst</td>
+                                        <td>@country.Point</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <a class="btn btn-success detail" asp-controller="Match" asp-action="GroupMatches" asp-route-groupId="B">
+                            <i class="bi bi-pencil-square">Details</i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body custom-card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>C</th>
+                                    <th>Country</th>
+                                    <th>Matches</th>
+                                    <th>GF</th>
+                                    <th>GA</th>
+                                    <th>Point</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var country in Model.GroupC)
+                                {
+                                    <tr>
+                                        <td>
+                                            <img src="@Url.Content($"~/img/Country/{country.ID}/{country.ID}.jpg")" alt="@country.ID" height="20" width="30" />
+                                        </td>
+                                        <td>@country.CountryName</td>
+                                        <td>@country.Matches</td>
+                                        <td>@country.GoalsFor</td>
+                                        <td>@country.GoalsAgainst</td>
+                                        <td>@country.Point</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <a class="btn btn-success detail" asp-controller="Match" asp-action="GroupMatches" asp-route-groupId="C">
+                            <i class="bi bi-pencil-square">Details</i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body custom-card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>D</th>
+                                    <th>Country</th>
+                                    <th>Matches</th>
+                                    <th>GF</th>
+                                    <th>GA</th>
+                                    <th>Point</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var country in Model.GroupD)
+                                {
+                                    <tr>
+                                        <td>
+                                            <img src="@Url.Content($"~/img/Country/{country.ID}/{country.ID}.jpg")" alt="@country.ID" height="20" width="30" />
+                                        </td>
+                                        <td>@country.CountryName</td>
+                                        <td>@country.Matches</td>
+                                        <td>@country.GoalsFor</td>
+                                        <td>@country.GoalsAgainst</td>
+                                        <td>@country.Point</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <a class="btn btn-success detail" asp-controller="Match" asp-action="GroupMatches" asp-route-groupId="D">
+                            <i class="bi bi-pencil-square">Details</i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body custom-card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>E</th>
+                                    <th>Country</th>
+                                    <th>Matches</th>
+                                    <th>GF</th>
+                                    <th>GA</th>
+                                    <th>Point</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var country in Model.GroupE)
+                                {
+                                    <tr>
+                                        <td>
+                                            <img src="@Url.Content($"~/img/Country/{country.ID}/{country.ID}.jpg")" alt="@country.ID" height="20" width="30" />
+                                        </td>
+                                        <td>@country.CountryName</td>
+                                        <td>@country.Matches</td>
+                                        <td>@country.GoalsFor</td>
+                                        <td>@country.GoalsAgainst</td>
+                                        <td>@country.Point</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <a class="btn btn-success detail" asp-controller="Match" asp-action="GroupMatches" asp-route-groupId="E">
+                            <i class="bi bi-pencil-square">Details</i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body custom-card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>F</th>
+                                    <th>Country</th>
+                                    <th>Matches</th>
+                                    <th>GF</th>
+                                    <th>GA</th>
+                                    <th>Point</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var country in Model.GroupF)
+                                {
+                                    <tr>
+                                        <td>
+                                            <img src="@Url.Content($"~/img/Country/{country.ID}/{country.ID}.jpg")" alt="@country.ID" height="20" width="30" />
+                                        </td>
+                                        <td>@country.CountryName</td>
+                                        <td>@country.Matches</td>
+                                        <td>@country.GoalsFor</td>
+                                        <td>@country.GoalsAgainst</td>
+                                        <td>@country.Point</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <a class="btn btn-success detail" asp-controller="Match" asp-action="GroupMatches" asp-route-groupId="F">
+                            <i class="bi bi-pencil-square">Details</i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

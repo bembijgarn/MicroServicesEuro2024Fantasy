@@ -1,0 +1,118 @@
+﻿@model GroupMatchesViewModel
+
+@{
+    int x = 0;
+}
+<style>
+    .grp {
+        background: aliceblue;
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-12 text-center">
+        <br /><br />
+        <h5>Group <h3>@Model.Matches.First().Group</h3></h5>
+        <div class="row">
+            <div class="card grp">
+                <div class="card-body custom-card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Country</th>
+                                <th>Matches</th>
+                                <th>GF</th>
+                                <th>GA</th>
+                                <th>Point</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var country in Model.Countries)
+                            {
+                                x++;
+                                <tr>
+                                    <td>
+                                        @x  <img src="@Url.Content($"~/img/Country/{country.ID}/{country.ID}.jpg")" alt="@country.ID" height="20" width="30" />
+                                    </td>
+                                    <td>@country.CountryName</td>
+                                    <td>@country.Matches</td>
+                                    <td>@country.GoalsFor</td>
+                                    <td>@country.GoalsAgainst</td>
+                                    <td>@country.Point</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <br /><br />
+        <h3>
+
+
+            <h3>Group @Model.Matches.First().Group Results</h3>
+        </h3>
+        <br /><br />
+        <div class="row">
+            <div class="row">
+                @foreach (var match in Model.MatchResults)
+                {
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <img src="@Url.Content($"~/img/Country/{match.HomeCountryID}/{match.HomeCountryID}.jpg")" alt="@match.HomeCountryID" height="20" width="30" /> @match.MatchResults.HomeScore
+                                    -  @match.MatchResults.AwayScore <img src="@Url.Content($"~/img/Country/{match.AwayCountryID}/{match.AwayCountryID}.jpg")" alt="@match.AwayCountryID" height="20" width="30" />
+
+                                </h5>
+                                <p class="card-text">
+                                    <strong>Stadium:</strong> @match.Stadium<br>
+                                    <strong>Date:</strong> @match.MatchDatetime<br>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="col-md-12">
+        <br /><br />
+        <h3>
+
+            <h3>Upcoming Matches</h3>
+
+        </h3>
+        <br /><br />
+        <div class="row">
+            @foreach (var match in Model.Matches)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <img src="@Url.Content($"~/img/Country/{match.HomeCountryID}/{match.HomeCountryID}.jpg")" alt="@match.HomeCountryID" height="20" width="30" />
+                                VS  <img src="@Url.Content($"~/img/Country/{match.AwayCountryID}/{match.AwayCountryID}.jpg")" alt="@match.AwayCountryID" height="20" width="30" />
+
+                            </h5>
+                            <p class="card-text">
+                                <strong>Stadium:</strong> @match.Stadium<br>
+                                <strong>Date:</strong> @match.MatchDatetime<br>
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+            }
+        </div>
+
+    </div>
+</div>

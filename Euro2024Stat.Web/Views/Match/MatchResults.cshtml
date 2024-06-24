@@ -1,0 +1,42 @@
+﻿@model IEnumerable<MatchDto>;
+@using Euro2024Stat.Web.Helper;
+
+
+<div class="row">
+    <div class="col-md-12">
+        <h3>Results</h3>
+
+        <div class="row">
+            @foreach (var match in Model)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <img src="@Url.Content($"~/img/Country/{match.HomeCountryID}/{match.HomeCountryID}.jpg")" alt="@match.HomeCountryID" height="20" width="30" /> @match.MatchResults.HomeScore
+                                -  @match.MatchResults.AwayScore <img src="@Url.Content($"~/img/Country/{match.AwayCountryID}/{match.AwayCountryID}.jpg")" alt="@match.AwayCountryID" height="20" width="30" />
+
+                            </h5>
+                            <p class="card-text">
+                                <strong>Stadium:</strong> @match.Stadium<br>
+                                <strong>Date:</strong> @match.MatchDatetime<br>
+                            </p>
+                        </div>
+                        @if(User.IsInRole(ApiHelper.RoleAdmin)){
+                            <a class="btn btn-warning" asp-controller="AdminEntities" asp-action="EditMatch" asp-route-matchId="@match.ID" asp-route-homeId="@match.HomeCountryID" , asp-route-awayId="@match.AwayCountryID">
+                                <i class="bi bi-pencil-square">Edit</i>
+                            </a>
+                            <form method="post" asp-controller="AdminEntities" asp-action="ResetMatch" asp-route-matchId="@match.ID" , asp-route-homeCountryId="@match.HomeCountryID" ,
+                                  asp-route-awayCountryId="@match.AwayCountryID" , asp-route-homeScore="@match.MatchResults.HomeScore" , asp-route-awayScore="@match.MatchResults.AwayScore">
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="bi bi-arrow-counterclockwise"></i> Reset
+                                </button>
+                            </form>
+                        }                     
+                    </div>
+                </div>
+            }
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,6 @@
+@Euro2024Stat.FantasyAPI_HostAddress = http://localhost:5230
+
+GET {{Euro2024Stat.FantasyAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

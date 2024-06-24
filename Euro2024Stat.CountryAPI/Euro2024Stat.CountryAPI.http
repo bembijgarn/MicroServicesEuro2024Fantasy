@@ -1,0 +1,6 @@
+@Euro2024Stat.CountryAPI_HostAddress = http://localhost:5181
+
+GET {{Euro2024Stat.CountryAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

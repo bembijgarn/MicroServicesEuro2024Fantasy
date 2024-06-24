@@ -1,0 +1,6 @@
+@Euro2024Stat.WalletAPI_HostAddress = http://localhost:5282
+
+GET {{Euro2024Stat.WalletAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

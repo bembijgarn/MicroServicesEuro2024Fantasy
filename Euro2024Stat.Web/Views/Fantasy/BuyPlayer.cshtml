@@ -1,0 +1,76 @@
+﻿@model PlayerDto;
+
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Player Information</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+<style>
+    .player-card {
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+
+    
+        .player-card img {
+            width: 100%;
+            height: 50%;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+    
+
+        .player-card h4 {
+            margin-bottom: 5px;
+        }
+
+        .player-card p {
+            margin-bottom: 3px;
+        }
+</style>
+
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-7 text-center">
+                 <h4> Fantasy Player</h4>
+                 <br /><br />
+                <div class="player-card">
+                    <img src="@Url.Content($"~/img/Player/{@Model.ID}/{@Model.ID}.jpg")" alt="@Model.Name" height="70" width="70" />
+                    <h4>Name: @Model.Name</h4>
+                    <p>Position: @Model.Position</p>
+                    <p>Number: @Model.TshirtNumber</p>
+                    <p>Age: @Model.Age</p>
+                    <p>
+                        Country:
+                        <img class="cntryimg" src="@Url.Content($"~/img/Country/{@Model.CountryID}/{@Model.CountryID}.jpg")" alt="@Model.Name" style="width: 50px; height: 50px; border-radius: 25px;" />
+                    </p>
+                    <p>Fantasy Price: $@Model.FantasyPrice</p>
+
+                    <div class="d-flex justify-content-between mt-3">
+                        <form asp-controller="Fantasy" asp-action="BuyPlayer" method="post">
+                            <input type="hidden" name="playerId" value="@Model.ID" />
+                            <input type="hidden" name="amount" value="@Model.FantasyPrice" />
+                            <input type="hidden" name="playerName" value="@Model.Name" />
+
+                            <button type="submit" class="btn btn-success">
+                                <i class="bi bi-check-square"></i> Buy
+                            </button>
+                        </form>
+
+                        <a class="btn btn-warning" asp-controller="Country" asp-action="Index">
+                            <i class=""></i> Cancel
+                        </a>
+                    </div>
+                </div>
+
+            </div>           
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+

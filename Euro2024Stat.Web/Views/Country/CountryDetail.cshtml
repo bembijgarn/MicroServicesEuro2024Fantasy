@@ -1,0 +1,157 @@
+﻿@model CountryDetailViewModel
+
+@{
+    var countryId = Model.Country.ID;
+    bool hasTeam = ViewBag.HasTeam;
+}
+
+<style>
+
+    .win {
+        background: green;
+        
+    }
+
+    .loss {
+        background: red;
+        
+    }
+
+    .draw {
+        background: orange;
+       
+    }
+
+</style>
+
+<h1>@Model.Country.CountryName</h1>
+<img src="@Url.Content($"~/img/Country/{Model.Country.ID}/{Model.Country.ID}.jpg")" alt="@Model.Country.CountryName Flag" height="50" width="75" />
+
+<p>Group: @Model.Country.Group</p>
+<p>Points: @Model.Country.Point</p>
+<p>Matches: @Model.Country.Matches</p>
+<p>Goals For: @Model.Country.GoalsFor</p>
+<p>Goals Against: @Model.Country.GoalsAgainst</p>
+
+<h2>Players</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Name</th>
+            <th>Position</th>
+            <th>Number</th>
+            <th>Age</th>
+            @if(hasTeam){
+                <th></th>
+                <th></th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var player in Model.Players)
+        {
+            <tr>
+                <td>
+                    <img src="@Url.Content($"~/img/Player/{player.ID}/{player.ID}.jpg")" alt="@player.Name" height="70" width="70" />
+                </td>
+                <td>@player.Name</td>
+                <td>@player.Position</td>
+                <td>@player.TshirtNumber</td>
+                <td>@player.Age</td>
+                @if(hasTeam){
+                    <td>@player.FantasyPrice $</td>
+                    <td>
+                        <a class="btn btn-success" asp-controller="Fantasy" asp-action="BuyPlayer" asp-route-playerId="@player.ID">
+                            <i class="">Buy Player</i>
+                        </a>
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="row">
+    <div class="col-md-12">
+        <h3>Results</h3>
+
+        <div class="row">
+            @foreach (var match in Model.MatchResults)
+            {
+                var resultClass = "draw";
+                if (countryId == match.HomeCountryID)
+                {
+                    if (match.MatchResults.HomeScore > match.MatchResults.AwayScore)
+                    {
+                        resultClass = "win";
+                    }
+                    else if (match.MatchResults.HomeScore < match.MatchResults.AwayScore)
+                    {
+                        resultClass = "loss";
+                    }
+                }
+                if (countryId == match.AwayCountryID)
+                {
+                    if (match.MatchResults.HomeScore < match.MatchResults.AwayScore)
+                    {
+                        resultClass = "win";
+                    }
+                    else if (match.MatchResults.HomeScore > match.MatchResults.AwayScore)
+                    {
+                        resultClass = "loss";
+                    }
+                }
+
+                <div class="col-md-4 mb-4">
+                    <div class="card @resultClass">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <img src="@Url.Content($"~/img/Country/{match.HomeCountryID}/{match.HomeCountryID}.jpg")" alt="@match.HomeCountryID" height="20" width="30" /> @match.MatchResults.HomeScore
+                                -  @match.MatchResults.AwayScore <img src="@Url.Content($"~/img/Country/{match.AwayCountryID}/{match.AwayCountryID}.jpg")" alt="@match.AwayCountryID" height="20" width="30" />
+
+                            </h5>
+                            <p class="card-text">
+                                <strong>Stadium:</strong> @match.Stadium<br>
+                                <strong>Date:</strong> @match.MatchDatetime<br>
+                            </p>
+                        </div>                       
+                    </div>
+                </div>
+            }
+        </div>
+
+    </div>
+</div>
+
+
+
+<div class="row">
+    <div class="col-md-12">
+        <h3>Upcoming Matches</h3>
+
+        <!-- Using Bootstrap cards to display match information -->
+        <div class="row">
+            @foreach (var match in Model.Matches)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <img src="@Url.Content($"~/img/Country/{match.HomeCountryID}/{match.HomeCountryID}.jpg")"  alt="@match.HomeCountryID" height="20" width="30" />
+                               VS  <img src="@Url.Content($"~/img/Country/{match.AwayCountryID}/{match.AwayCountryID}.jpg")"  alt="@match.AwayCountryID" height="20" width="30" />
+
+                            </h5>
+                            <p class="card-text">
+                                <strong>Stadium:</strong> @match.Stadium<br>
+                                <strong>Date:</strong> @match.MatchDatetime<br>
+                            </p>
+                        </div>
+                       
+                    </div>
+                </div>
+            }
+        </div>
+
+    </div>
+</div>

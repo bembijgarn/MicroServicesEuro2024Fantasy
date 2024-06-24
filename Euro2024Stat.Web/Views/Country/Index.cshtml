@@ -1,0 +1,80 @@
+﻿@model IEnumerable<Countrydto>
+
+@{
+	int Rank = 0;
+}
+<div class="text-center">
+    <h1 class="display-4">EURO 2024</h1>
+
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>
+					#
+				</th>
+				<th>
+
+				</th>
+				<th>
+					Country Name
+				</th>
+				<th>
+					Group
+				</th>
+				<th>
+					Point
+				</th>
+				<th>
+					Matches
+				</th>
+				<th>
+					GoalsFor
+				</th>
+				<th>
+					GoalsAgainst
+				</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody>
+
+			@foreach (var item in Model)
+			{
+				Rank++;
+				<tr>
+					<td>
+						@Rank
+					</td>
+					<td>
+						<img src="@($"./img/Country/{item.ID}/{item.ID}.jpg")" height="20" width="40" />
+					</td>
+					<td>
+						@item.CountryName
+					</td>
+					<td>
+						@item.Group
+					</td>
+					<td>
+						@item.Point
+					</td>
+					<td>
+						@item.Matches
+					</td>
+					<td>
+						@item.GoalsFor
+					</td>
+					<td>
+						@item.GoalsAgainst
+					</td>
+					<td>
+						<a class="btn btn-success" asp-action="CountryDetail" asp-route-CountryId="@item.ID">
+							<i class="bi bi-pencil-square">Details</i>
+						</a>
+					</td>
+					
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
