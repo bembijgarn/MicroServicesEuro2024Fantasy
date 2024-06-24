@@ -42,7 +42,7 @@ namespace Euro2024Stat.Web.Controllers
             TempData["success"] = "Team  Created Successful";
 
 
-            return View(model);
+            return View(model); 
         }
         [HttpGet]
         public async Task<IActionResult> BuyPlayer(int playerId)
