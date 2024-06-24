@@ -59,7 +59,7 @@ namespace Euro2024Stat.Web.Controllers
             var userId = User.Claims.Where(u => u.Type == JwtRegisteredClaimNames.Sub)?.FirstOrDefault()?.Value;
             ResponseDto? responseDto = await _fantasyService.BuyPlayer(userId, playerId, playerName);
 
-            //TODO : wallet balance 
+            //TODO : wallet balance!!!
             return RedirectToAction("Index","Country");
         }
     }
