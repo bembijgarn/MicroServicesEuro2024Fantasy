@@ -4,11 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 using Euro2024Stat.TransactionAPI.Models.Dto;
 using Euro2024Stat.TransactionAPI.Query;
 using Euro2024Stat.TransactionAPI.Command;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Euro2024Stat.TransactionAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class AdminController : ControllerBase
     {
         private readonly IMediator _mediator;

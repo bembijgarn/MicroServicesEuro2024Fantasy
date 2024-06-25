@@ -4,11 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 using Euro2024Stat.WalletAPI.Models.Dto;
 using Euro2024Stat.WalletAPI.Command;
 using Euro2024Stat.WalletAPI.Query;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Euro2024Stat.WalletAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class WalletController : ControllerBase
     {
         private readonly IMediator _mediator;

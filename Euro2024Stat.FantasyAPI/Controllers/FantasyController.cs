@@ -11,8 +11,8 @@ namespace Euro2024Stat.FantasyAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
-    public class FantasyController : ControllerBase
+	[Authorize]
+	public class FantasyController : ControllerBase
     {
         private readonly IMediator _mediator;
         private ResponseDto _response;

@@ -13,7 +13,7 @@ namespace Euro2024Stat.MatchAPI.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	//[Authorize]
+	[Authorize]
 	public class MatchController : ControllerBase
 	{
 		private readonly IMediator _mediator;

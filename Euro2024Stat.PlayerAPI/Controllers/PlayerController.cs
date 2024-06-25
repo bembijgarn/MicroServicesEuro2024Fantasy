@@ -1,6 +1,7 @@
 ﻿using Euro2024Stat.PlayerAPI.Models.Dto;
 using Euro2024Stat.PlayerAPI.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection.Metadata.Ecma335;
@@ -9,6 +10,7 @@ namespace Euro2024Stat.PlayerAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class PlayerController : ControllerBase
     {
         private readonly IMediator _mediator;

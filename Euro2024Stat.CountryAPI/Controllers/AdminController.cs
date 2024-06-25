@@ -1,6 +1,7 @@
 ﻿using Euro2024Stat.CountryAPI.Commands;
 using Euro2024Stat.CountryAPI.Models.Dto;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,7 +9,9 @@ namespace Euro2024Stat.CountryAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AdminController : ControllerBase
+	[Authorize]
+
+	public class AdminController : ControllerBase
     {
         private readonly IMediator _mediator;
         private ResponseDto _response;
