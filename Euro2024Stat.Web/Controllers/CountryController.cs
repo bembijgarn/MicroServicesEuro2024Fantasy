@@ -38,9 +38,24 @@ namespace Euro2024Stat.Web.Controllers
             
             ResponseDto? response = await _countryservice.GetAllCountry();
             ApiHelper.APIGetDeserializedList(response,out list);
-           
 
-            return View(list);
+
+			#region WinnerTeam
+
+			int winnerTeamId;
+			ResponseDto? winnerTeamIdResponseDto = await _matchService.GetWinnerTeamId("final");
+			ApiHelper.APIGetDeserializedobject(winnerTeamIdResponseDto, out winnerTeamId);
+
+			var winnerTeam = new Countrydto();
+			ResponseDto? winnerTeamResponseDto = await _countryservice.GetCountryById(winnerTeamId);
+			ApiHelper.APIGetDeserializedobject(winnerTeamResponseDto, out winnerTeam);
+
+			ViewBag.WinnerTeam = winnerTeam;
+
+
+			#endregion
+
+			return View(list);
         }
         [Authorize]
         public async Task<IActionResult> CountryDetail(int countryId)

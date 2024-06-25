@@ -1,5 +1,6 @@
 ﻿using Euro2024Stat.CountryAPI.Commands;
 using Euro2024Stat.CountryAPI.Models.Dto;
+using Euro2024Stat.CountryAPI.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -9,9 +10,8 @@ namespace Euro2024Stat.CountryAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-	[Authorize]
-
-	public class AdminController : ControllerBase
+    [Authorize]
+    public class AdminController : ControllerBase
     {
         private readonly IMediator _mediator;
         private ResponseDto _response;
@@ -55,5 +55,41 @@ namespace Euro2024Stat.CountryAPI.Controllers
             }
             return _response;
         }
+
+        [HttpGet]
+        [Route("Country/GetGroupWinnerCountries")]
+        public async Task<ResponseDto> GetGroupWinnerCountries ()
+        {
+            try
+            {
+                var groupWinnerCountries = await _mediator.Send(new GetGroupWinnerCountriesQuery());
+                _response.Result = groupWinnerCountries;
+
+            }catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.Message = ex.Message;
+            }
+            return _response;
+        }
+
+        [HttpPost]
+        [Route("Country/GetTop3ThCountries")]
+        public async Task<ResponseDto> GetTop3ThCountries(List<int> countryIds)
+        {
+            try
+            {
+                var groupWinnerCountries = await _mediator.Send(new GetGroupTop3thPlacesQuery(countryIds));
+                _response.Result = groupWinnerCountries;
+
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.Message = ex.Message;
+            }
+            return _response;
+        }
+
     }
 }

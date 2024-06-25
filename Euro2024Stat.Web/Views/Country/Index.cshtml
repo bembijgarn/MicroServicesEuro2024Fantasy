@@ -2,8 +2,29 @@
 
 @{
 	int Rank = 0;
+	Countrydto WinnerTeam = ViewBag.WinnerTeam;
 }
 <div class="text-center">
+
+	@if (WinnerTeam !=null)
+	{
+		<div class="col-md-4 mb-4">
+			<div class="card">
+				<div class="card-body">
+					<h5 class="card-title">
+						<strong>Euro 2024 <h1>Winner</h1></strong>
+						<img src="@Url.Content($"~/img/Country/{WinnerTeam.ID}/{WinnerTeam.ID}.jpg")" alt="@WinnerTeam.CountryName" height="100" width="150" />
+
+					</h5>
+					
+				</div>				
+			</div>
+		</div>
+	}
+
+	
+
+
     <h1 class="display-4">EURO 2024</h1>
 
 

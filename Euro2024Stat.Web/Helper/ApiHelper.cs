@@ -24,6 +24,14 @@ namespace Euro2024Stat.Web.Helper
             DELETE
         }
 
+        public enum PlayoffType
+        {
+            round8,
+            round4,
+            round2,
+            final
+
+        }
         public enum TranType
         {
             Deposit,

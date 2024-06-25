@@ -12,7 +12,7 @@ namespace Euro2024Stat.CountryAPI.Handlers
         public GetCountriesByGroupHandler(IPublicCountry countryservice) => _countryService = countryservice;
         public Task<IEnumerable<Countries>> Handle(GetCountriesByGroupQuery request, CancellationToken cancellationToken)
         {
-            var Countries = _countryService.GetCountriesByGroup(request.Group);
+            var Countries = _countryService.GetCountriesByGroup(request.group);
             return Countries;
         }
     }

@@ -12,6 +12,13 @@ namespace Euro2024Stat.Web.Interface
         Task<ResponseDto?> FinishMatch(int matchId);
         Task<ResponseDto?> GetAllGroupMatchByGroupId(string groupId);
         Task<ResponseDto?> GetGroupMatchResultsByGroupId(string groupId);
+        Task<ResponseDto?> CreatePlayOffMatch(PlayoffMatchDto model);
+        Task<ResponseDto?> GetPlayoffCountryIdsByGroup(string groupId);
+        Task<ResponseDto?> GetPlayoffWinnerTeamIds(string groupId);
+        Task<ResponseDto?> GetWinnerTeamId(string groupId);
+
+
+
 
 
 

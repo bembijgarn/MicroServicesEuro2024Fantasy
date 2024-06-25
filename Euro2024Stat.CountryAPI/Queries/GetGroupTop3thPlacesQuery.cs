@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Euro2024Stat.CountryAPI.Queries
 {
-    public record GetCountriesByGroupQuery(char group) : IRequest<IEnumerable<Countries>>
+    public record GetGroupTop3thPlacesQuery(List<int> countryIds) : IRequest<List<Countries>>
     {
     }
 }

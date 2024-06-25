@@ -1,6 +1,7 @@
 ﻿using Euro2024Stat.Web.Helper;
 using Euro2024Stat.Web.Interface;
 using Euro2024Stat.Web.Models;
+using System.Reflection;
 
 namespace Euro2024Stat.Web.Service
 {
@@ -82,6 +83,43 @@ namespace Euro2024Stat.Web.Service
             {
                 ApiType = ApiHelper.ApiType.GET,
                 Url = ApiHelper.MatchAPIBase + "/api/Match/GetGroupMatchResultsByGroupId?groupId=" + groupId
+            });
+        }
+
+        public async Task<ResponseDto?> CreatePlayOffMatch(PlayoffMatchDto model)
+        {
+            return await _service.SendAsync(new RequestDto()
+            {
+                ApiType = ApiHelper.ApiType.POST,
+                Data = model,
+                Url = ApiHelper.MatchAPIBase + "/api/Admin/Match/CreatePlayOffMatch"
+            });
+        }
+
+        public async Task<ResponseDto?> GetPlayoffCountryIdsByGroup(string groupId)
+        {
+            return await _service.SendAsync(new RequestDto()
+            {
+                ApiType = ApiHelper.ApiType.GET,
+                Url = ApiHelper.MatchAPIBase + "/api/Admin/Match/GetPlayoffCountryIdsByGroup?group=" + groupId
+            });
+        }
+
+        public async Task<ResponseDto?> GetPlayoffWinnerTeamIds(string groupId)
+        {
+            return await _service.SendAsync(new RequestDto()
+            {
+                ApiType = ApiHelper.ApiType.GET,
+                Url = ApiHelper.MatchAPIBase + "/api/Admin/Match/GetPlayoffWinnerTeamIds?group=" + groupId
+            });
+        }
+
+        public async Task<ResponseDto?> GetWinnerTeamId(string groupId)
+        {
+            return await _service.SendAsync(new RequestDto()
+            {
+                ApiType = ApiHelper.ApiType.GET,
+                Url = ApiHelper.MatchAPIBase + "/api/Admin/Match/GetWinnerTeamId?group=" + groupId
             });
         }
     }

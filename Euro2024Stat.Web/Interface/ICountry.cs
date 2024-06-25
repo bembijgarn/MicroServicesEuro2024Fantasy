@@ -9,6 +9,10 @@ namespace Euro2024Stat.Web.Interface
         Task<ResponseDto?> GetCountriesByGroup(char group);
         Task<ResponseDto?> UpdateStatistic(int homeCountryId, int awayCountryId, int homeGoals, int awayGoals);
         Task<ResponseDto?> RollBackStatistic(int homeCountryId, int awayCountryId, int homeGoals, int awayGoals);
+		Task<ResponseDto?> GetGroupWinnerCountries();
+        Task<ResponseDto?> GetTop3thPlaces(List<int> countryIds);
+
+
 
     }
 }

@@ -9,7 +9,8 @@ namespace Euro2024Stat.CountryAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CountryController : ControllerBase
+	[Authorize]
+	public class CountryController : ControllerBase
     {
         private readonly IMediator _mediator;
         private ResponseDto _response;

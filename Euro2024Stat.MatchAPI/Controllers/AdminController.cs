@@ -1,5 +1,6 @@
 ﻿using Euro2024Stat.MatchAPI.Commands;
 using Euro2024Stat.MatchAPI.Models.Dto;
+using Euro2024Stat.MatchAPI.Queries;
 using EURO2024Stat.Domain;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -10,8 +11,8 @@ namespace Euro2024Stat.MatchAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
-    public class AdminController : ControllerBase
+	[Authorize]
+	public class AdminController : ControllerBase
     {
 
         private readonly IMediator _mediator;
@@ -29,10 +30,10 @@ namespace Euro2024Stat.MatchAPI.Controllers
         {
             try
             {
-                 await _mediator.Send(new EditMatchResultCommand(matchId, model));
+                await _mediator.Send(new EditMatchResultCommand(matchId, model));
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _response.IsSuccess = false;
                 _response.Message = ex.Message;
@@ -64,6 +65,72 @@ namespace Euro2024Stat.MatchAPI.Controllers
             try
             {
                 await _mediator.Send(new ResetMatchCommand(matchId));
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.Message = ex.Message;
+            }
+            return _response;
+        }
+
+        [HttpPost]
+        [Route("Match/CreatePlayOffMatch")]
+        public async Task<ResponseDto> CreatePlayOffMatch(Matches model)
+        {
+            try
+            {
+                await _mediator.Send(new CreatePlayOffMatchCommand(model));
+            }catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.Message = ex.Message;
+            }
+            return _response;
+        }
+
+        [HttpGet]
+        [Route("Match/GetPlayoffCountryIdsByGroup")]
+        public async Task<ResponseDto> GetPlayoffCountryIdsByGroup(string group)
+        {
+            try
+            {
+               var countryIds =  await _mediator.Send(new GetPlayoffMatchCountryIdsByGroupQuery(group));
+               _response.Result = countryIds;
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.Message = ex.Message;
+            }
+            return _response;
+        }
+
+        [HttpGet]
+        [Route("Match/GetPlayoffWinnerTeamIds")]
+        public async Task<ResponseDto> GetPlayoffWinnerTeamIds(string group)
+        {
+            try
+            {
+                var countryIds = await _mediator.Send(new GetPlayoffTeamIdsQuery(group));
+                _response.Result = countryIds;
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.Message = ex.Message;
+            }
+            return _response;
+        }
+
+        [HttpGet]
+        [Route("Match/GetWinnerTeamId")]
+        public async Task<ResponseDto> GetWinnerTeamId(string group)
+        {
+            try
+            {
+                var winnerTeamId = await _mediator.Send(new GetWinnerTeamIdQuery(group));
+                _response.Result = winnerTeamId;
             }
             catch (Exception ex)
             {

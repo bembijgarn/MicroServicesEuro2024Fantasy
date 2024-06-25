@@ -41,7 +41,7 @@ namespace Euro2024Stat.MatchAPI.Service
         public async Task FinishMatch(int matchId)
         {
             var match = await _db.Matches.FirstOrDefaultAsync(x => x.ID == matchId);
-            
+
             if (match != null)
             {
                 match.IsFinished = true;
@@ -49,8 +49,59 @@ namespace Euro2024Stat.MatchAPI.Service
             }
         }
 
-       
+        public async Task CreatePlayOffMatch(Matches model)
+        {
+            if (model != null)
+            {
+                var Matchresults = new MatchResults()
+                {
+                    HomeScore = 0,
+                    AwayScore = 0,
+                };
+                model.MatchResults = Matchresults;
+                _db.Matches.Add(model);
+                await _db.SaveChangesAsync();
+            }
+        }
 
-      
+        public async Task<List<int>> GetPlayoffMatchCountryIds(string group)
+        {
+            var homeCountryIds = await _db.Matches
+                                        .Where(m => m.Group == group)
+                                        .Select(m => m.HomeCountryID)
+                                        .Distinct()
+                                        .ToListAsync();
+
+            var awayCountryIds = await _db.Matches
+                                        .Where(m => m.Group == group)
+                                        .Select(m => m.AwayCountryID)
+                                        .Distinct()
+                                        .ToListAsync();
+
+            var countryIds = homeCountryIds.Union(awayCountryIds).ToList();
+
+            return countryIds;
+        }
+
+        public async Task<List<int>> GetPlayoffTeamIds(string group)
+        {
+            var winningCountryIds = await _db.Matches
+               .Where(m => m.MatchResults != null && m.MatchResults.HomeScore != m.MatchResults.AwayScore && m.Group == group)
+               .Select(m => m.MatchResults.HomeScore > m.MatchResults.AwayScore ? m.HomeCountryID : m.AwayCountryID)
+               .ToListAsync();
+
+            return winningCountryIds;
+        }
+
+        public async Task<int> GetWinnerTeamId(string group)
+        {
+
+            var winnerTeamId = await _db.Matches
+                       .Where(m => m.MatchResults != null && m.MatchResults.HomeScore != m.MatchResults.AwayScore && m.Group == group)
+                       .Select(m => m.MatchResults.HomeScore > m.MatchResults.AwayScore ? m.HomeCountryID : m.AwayCountryID)
+                       .FirstOrDefaultAsync();
+            return winnerTeamId;
+
+        }
     }
 }

@@ -55,5 +55,24 @@ namespace Euro2024Stat.Web.Service
                 Url = ApiHelper.CountryAPIBase + "/api/Admin/Country/RollBackStatistic?homeCountryId=" + homeCountryId + "&awayCountryId=" + awayCountryId + "&homeGoals=" + homeGoals + "&awayGoals=" + awayGoals
             });
         }
+
+		public async Task<ResponseDto?> GetGroupWinnerCountries()
+		{
+			return await _service.SendAsync(new RequestDto()
+			{
+				ApiType = ApiHelper.ApiType.GET,
+				Url = ApiHelper.CountryAPIBase + "/api/Admin/Country/GetGroupWinnerCountries"
+			});
+		}
+
+        public async Task<ResponseDto?> GetTop3thPlaces(List<int> countryIds)
+        {
+            return await _service.SendAsync(new RequestDto()
+            {
+                ApiType = ApiHelper.ApiType.POST,
+                Data = countryIds,
+                Url = ApiHelper.CountryAPIBase + "/api/Admin/Country/GetTop3ThCountries?"
+            });
+        }
     }
 }

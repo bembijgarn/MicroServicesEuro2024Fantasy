@@ -1,0 +1,215 @@
+﻿@model PlayoffMatchDto
+
+@{
+    List<Countrydto> round8Teams = ViewBag.Round8Teams;
+    List<Countrydto> round4Teams = ViewBag.Round4Teams;
+    List<Countrydto> round2Teams = ViewBag.Round2Teams;
+    List<Countrydto> FinalTeams = ViewBag.FinalTeams;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Playoff Match</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css">
+    <style>
+        .dropdown-item img {
+            height: 20px;
+            width: 40px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        @if(round8Teams.Any())
+        {
+        <div class="playoffs">
+            <h3 class="text-center">Add Round8 Match</h3>
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <form method="post" asp-controller="AdminEntities" asp-action="AddMatch">
+                        <div class="form-group">
+                            <label for="homeCountryId">Select Home Country:</label>
+                            <select id="homeCountryId" class="form-control" name="homeCountryId">
+                                @foreach (var country in round8Teams)
+                                {
+                                    <option value="@country.ID">@country.CountryName</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="awayCountryId">Select Away Country:</label>
+                            <select id="awayCountryId" class="form-control" name="awayCountryId">
+                                @foreach (var country in round8Teams)
+                                {
+                                    <option value="@country.ID">@country.CountryName</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="stadium">Stadium:</label>
+                            <input id="stadium" class="form-control" type="text" name="stadium" />
+                        </div>
+                        <div class="form-group">
+                            <label for="matchDate">MatchDate:</label>
+                            <input id="matchDate" class="form-control" type="datetime" name="matchDate" />
+                        </div>
+                        <div class="form-group">
+                            <label for="group"></label>
+                            <input id="group" class="form-control" type="hidden" name="group" value="round8" />
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block mt-3">
+                            <i class="bi bi-plus-circle"></i> Add Match
+                        </button>
+                    </form>
+                </div>
+            </div>
+            </div>
+        }else if(round4Teams.Any())
+        {
+            
+               
+        <div class="playoffs">
+            <h3 class="text-center">Add Round4 Match</h3>
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <form method="post" asp-controller="AdminEntities" asp-action="AddMatch">
+                        <div class="form-group">
+                            <label for="homeCountryId">Select Home Country:</label>
+                            <select id="homeCountryId" class="form-control" name="homeCountryId">
+                                @foreach (var country in round4Teams)
+                                {
+                                    <option value="@country.ID">@country.CountryName</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="awayCountryId">Select Away Country:</label>
+                            <select id="awayCountryId" class="form-control" name="awayCountryId">
+                                @foreach (var country in round4Teams)
+                                {
+                                    <option value="@country.ID">@country.CountryName</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="stadium">Stadium:</label>
+                            <input id="stadium" class="form-control" type="text" name="stadium" />
+                        </div>
+                        <div class="form-group">
+                            <label for="matchDate">MatchDate:</label>
+                            <input id="matchDate" class="form-control" type="datetime" name="matchDate" />
+                        </div>
+                        <div class="form-group">
+                            <label for="group"></label>
+                            <input id="group" class="form-control" type="hidden" name="group" value="round4" />
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block mt-3">
+                            <i class="bi bi-plus-circle"></i> Add Match
+                        </button>
+                    </form>
+                </div>
+            </div>
+            </div>
+        }else if (round2Teams.Any())
+        {
+            <div class="playoffs">
+                <h3 class="text-center">Add Semi-Final Match</h3>
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <form method="post" asp-controller="AdminEntities" asp-action="AddMatch">
+                            <div class="form-group">
+                                <label for="homeCountryId">Select Home Country:</label>
+                                <select id="homeCountryId" class="form-control" name="homeCountryId">
+                                    @foreach (var country in round2Teams)
+                                    {
+                                        <option value="@country.ID">@country.CountryName</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="awayCountryId">Select Away Country:</label>
+                                <select id="awayCountryId" class="form-control" name="awayCountryId">
+                                    @foreach (var country in round2Teams)
+                                    {
+                                        <option value="@country.ID">@country.CountryName</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="stadium">Stadium:</label>
+                                <input id="stadium" class="form-control" type="text" name="stadium" />
+                            </div>
+                            <div class="form-group">
+                                <label for="matchDate">MatchDate:</label>
+                                <input id="matchDate" class="form-control" type="datetime" name="matchDate" />
+                            </div>
+                            <div class="form-group">
+                                <label for="group"></label>
+                                <input id="group" class="form-control" type="hidden" name="group" value="round2" />
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block mt-3">
+                                <i class="bi bi-plus-circle"></i> Add Match
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }else if(FinalTeams.Any())
+        {
+            <div class="playoffs">
+                <h3 class="text-center">Add Final Match</h3>
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <form method="post" asp-controller="AdminEntities" asp-action="AddMatch">
+                            <div class="form-group">
+                                <label for="homeCountryId">Select Home Country:</label>
+                                <select id="homeCountryId" class="form-control" name="homeCountryId">
+                                    @foreach (var country in FinalTeams)
+                                    {
+                                        <option value="@country.ID">@country.CountryName</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="awayCountryId">Select Away Country:</label>
+                                <select id="awayCountryId" class="form-control" name="awayCountryId">
+                                    @foreach (var country in FinalTeams)
+                                    {
+                                        <option value="@country.ID">@country.CountryName</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="stadium">Stadium:</label>
+                                <input id="stadium" class="form-control" type="text" name="stadium" />
+                            </div>
+                            <div class="form-group">
+                                <label for="matchDate">MatchDate:</label>
+                                <input id="matchDate" class="form-control" type="datetime" name="matchDate" />
+                            </div>
+                            <div class="form-group">
+                                <label for="group"></label>
+                                <input id="group" class="form-control" type="hidden" name="group" value="final" />
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block mt-3">
+                                <i class="bi bi-plus-circle"></i> Add Match
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }else
+        {          
+            <h3 class="text-center">Waiting For Current Round</h3>
+        }
+
+
+    </div>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
