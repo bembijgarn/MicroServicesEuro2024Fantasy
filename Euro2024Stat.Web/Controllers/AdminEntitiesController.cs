@@ -38,17 +38,21 @@ namespace Euro2024Stat.Web.Controllers
             ResponseDto? responseDto = await _matchService.EditMatchResult(matchId, model);
             if (isGroupMatch(group))
             {
-                ResponseDto? responseDtoStatistic = await _countryService.UpdateStatistic(homeId, awayId, model.HomeScore, model.AwayScore);
+                await _countryService.UpdateStatistic(homeId, awayId, model.HomeScore, model.AwayScore);
             }
 
             return RedirectToAction("MatchResults", "Match");
         }
 
         [HttpPost]
-        public async Task<IActionResult> ResetMatch(int matchId, int homeCountryId, int awayCountryId, int homeScore, int awayScore)
+        public async Task<IActionResult> ResetMatch(int matchId, int homeCountryId, int awayCountryId, int homeScore, int awayScore, string group)
         {
-            ResponseDto? responseDto = await _matchService.ResetMatch(matchId);
-            ResponseDto? rollbackResponseDto = await _countryService.RollBackStatistic(homeCountryId, awayCountryId, homeScore, awayScore);
+            await _matchService.ResetMatch(matchId);
+            if (isGroupMatch(group))
+            {
+				await _countryService.RollBackStatistic(homeCountryId, awayCountryId, homeScore, awayScore);
+
+			}
 
             return RedirectToAction("MatchResults", "Match");
         }
@@ -56,7 +60,7 @@ namespace Euro2024Stat.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> FinishMatch(int matchId)
         {
-            ResponseDto? responseDto = await _matchService.FinishMatch(matchId);
+             await _matchService.FinishMatch(matchId);
 
             return RedirectToAction("MatchResults", "Match");
         }
