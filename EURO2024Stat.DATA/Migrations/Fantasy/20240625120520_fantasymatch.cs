@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace EURO2024Stat.DATA.Migrations.Fantasy
 {
     /// <inheritdoc />
-    public partial class fantasy : Migration
+    public partial class fantasymatch : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,7 +18,7 @@ namespace EURO2024Stat.DATA.Migrations.Fantasy
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TeamID = table.Column<int>(type: "int", nullable: false),
-                    Result = table.Column<string>(type: "nvarchar(1)", nullable: false),
+                    Result = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     MatchDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>

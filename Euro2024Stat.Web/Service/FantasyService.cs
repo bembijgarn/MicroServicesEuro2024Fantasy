@@ -63,6 +63,22 @@ namespace Euro2024Stat.Web.Service
             });
         }
 
-        
+        public async Task<ResponseDto> GetTeamIdByUserId(string userId)
+        {
+            return await _service.SendAsync(new RequestDto()
+            {
+                ApiType = ApiHelper.ApiType.GET,
+                Url = ApiHelper.FantasyAPIBase + "/api/Fantasy/GetTeamIdByUserId?userId=" + userId
+            });
+        }
+
+        public async Task<ResponseDto> CreateMatchResult(int teamId, string result)
+        {
+            return await _service.SendAsync(new RequestDto()
+            {
+                ApiType = ApiHelper.ApiType.POST,
+                Url = ApiHelper.FantasyAPIBase + "/api/Fantasy/CreateMatchResult?teamId=" + teamId + "&result=" + result
+            });
+        }
     }
 }

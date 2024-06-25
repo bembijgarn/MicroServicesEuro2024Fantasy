@@ -34,8 +34,7 @@ namespace EURO2024Stat.DATA.Migrations.Fantasy
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Result")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(1)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("TeamID")
                         .HasColumnType("int");

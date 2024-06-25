@@ -1,0 +1,40 @@
+﻿@{
+    int gameResult = ViewBag.GameResult ?? -1; // Default value or handle null case
+    string resultMessage = "Unknown";
+    string colorClass = "";
+
+    // Determine the result message and color based on gameResult value
+    switch (gameResult)
+    {
+        case 0:
+            resultMessage = "You Lose!";
+            colorClass = "text-danger"; 
+            break;
+        case 1:
+            resultMessage = "You Win!";
+            colorClass = "text-success"; 
+            break;
+        case 2:
+            resultMessage = "It's a Draw!";
+            colorClass = "text-coral"; 
+            break;
+        case 3:
+            resultMessage = "insufficient balance!";
+            colorClass = "text-danger";
+            break;
+        default:
+            resultMessage = "Error: Unable to determine result.";
+            break;
+    }
+}
+
+<style>
+    .game-result {
+        margin-top:30%;
+    }
+</style>
+
+
+<div class="game-result">
+    <h2 class="@colorClass">@resultMessage</h2>
+</div>

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EURO2024Stat.DATA.Migrations.Fantasy
 {
     [DbContext(typeof(FantasyContext))]
-    [Migration("20240624202504_fantasy")]
-    partial class fantasy
+    [Migration("20240625120520_fantasymatch")]
+    partial class fantasymatch
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,8 +37,7 @@ namespace EURO2024Stat.DATA.Migrations.Fantasy
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Result")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(1)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("TeamID")
                         .HasColumnType("int");

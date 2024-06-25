@@ -82,5 +82,31 @@ namespace Euro2024Stat.FantasyAPI.Service
             }
             return false;
         }
+
+        public async Task<int> GetTeamIdByUserId(string userId)
+        {
+            var team = await _db.Teams.SingleOrDefaultAsync(x => x.UserId == userId);
+            if (team != null)
+            {
+                return team.ID;
+            }
+            return 0;
+        }
+
+        public async Task CreateMatchResult(int teamId, string result)
+        {
+            var team = await _db.Teams.SingleOrDefaultAsync(x => x.ID == teamId);
+            if (team != null)
+            {
+                var matchResult = new FantasyMatchResults()
+                {
+                    TeamID = teamId,
+                    Result = result
+                };
+
+                _db.MatchResults.Add(matchResult);
+                await _db.SaveChangesAsync();
+            }
+        }
     }
 }

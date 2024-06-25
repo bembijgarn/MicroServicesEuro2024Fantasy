@@ -10,7 +10,7 @@ namespace EURO2024Stat.Domain
     {
         public int ID { get; set; }
         public int TeamID { get; set; }
-        public char Result {  get; set; }
+        public string Result {  get; set; }
         public DateTime MatchDate { get; set; } = DateTime.Now;
     }
 }

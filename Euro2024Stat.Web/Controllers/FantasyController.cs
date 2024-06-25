@@ -14,15 +14,15 @@ namespace Euro2024Stat.Web.Controllers
         private readonly IFantasy _fantasyService;
         private readonly IPlayer _playerService;
         private readonly IWallet _walletService;
-        public FantasyController(IWallet walletService,IFantasy fantasyService, IPlayer playerService) : base (walletService, fantasyService)
+        public FantasyController(IWallet walletService, IFantasy fantasyService, IPlayer playerService) : base(walletService, fantasyService)
         {
             _fantasyService = fantasyService;
             _playerService = playerService;
-            _walletService = walletService; 
+            _walletService = walletService;
         }
 
         public async Task<IActionResult> Index()
-        {          
+        {
             ViewBag.HasTeam = HasFantasyTeam;
 
             var PlayerIds = new List<FantasyPlayerDto>();
@@ -39,19 +39,19 @@ namespace Euro2024Stat.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> CreateTeam()
         {
-            return View(); 
+            return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateTeam(FantasyTeamDto model)
         {
-           
+
             model.UserId = Userid;
             ResponseDto? responseDto = await _fantasyService.CreateFantasyTeam(model);
             TempData["success"] = "Team  Created Successful";
 
-            
-            return View(model); 
+
+            return View(model);
         }
         [HttpGet]
         public async Task<IActionResult> BuyPlayer(int playerId)
@@ -71,8 +71,8 @@ namespace Euro2024Stat.Web.Controllers
             }
 
             await _walletService.Withdraw(Userid, amount); // buy
-           
-            return RedirectToAction("Index","Fantasy");
+
+            return RedirectToAction("Index", "Fantasy");
         }
 
         [HttpPost]
@@ -84,6 +84,88 @@ namespace Euro2024Stat.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-       
+        [HttpGet]
+
+        public async Task<IActionResult> StartGame()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Route("Fantasy/DetermineGameResult")]
+        public async Task<IActionResult> DetermineGameResult([FromBody] BetModelDto model)
+        {
+            int teamId;
+           await Task.Delay(2000);
+            Random random = new Random();
+            int result = random.Next(0, 3);
+
+            if (Balance < model.betAmount)
+            {
+                result = 3;
+            }
+
+            await WinnLoose(Userid, result, model.betAmount);
+
+            ResponseDto? teamIdresponse = await _fantasyService.GetTeamIdByUserId(Userid);
+            ApiHelper.APIGetDeserializedobject(teamIdresponse, out teamId);
+
+
+            var matchResult = await returnstringResult(result);
+            await _fantasyService.CreateMatchResult(teamId, matchResult);
+
+            ViewBag.GameResult = result;
+
+            return PartialView("_GameResultPartial");
+        }
+
+
+
+        #region Helpers
+
+        private async Task WinnLoose(string userId,int result, decimal amount)
+        {
+            switch (result)
+            {
+                case 0:
+                    {
+                        await _walletService.Withdraw(userId, amount);
+                        break;
+                    }
+                case 1:
+                    {
+                        await _walletService.Deposit(Userid, amount);
+                        break;
+                    }
+            }
+        }
+
+        private async Task<string> returnstringResult(int result)
+        {
+
+            switch (result)
+            {
+                case 0:
+                    {
+                        return "Lose";
+                    }
+                case 1:
+                    {
+                        return "Win";
+                    }
+                case 2:
+                    {
+                        return "Draw";
+                    }
+                default:
+                    {
+                        return "Lose";
+                    }
+            }
+        }
+
+        #endregion
+
+
     }
 }

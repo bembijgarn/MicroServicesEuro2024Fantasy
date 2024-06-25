@@ -11,6 +11,10 @@ namespace Euro2024Stat.Web.Interface
         Task<ResponseDto> SellPlayer(string userId, int playerId);
 
         Task<ResponseDto> GetFantasyPlayers(string userId);
+        Task<ResponseDto> GetTeamIdByUserId(string userId);
+        Task<ResponseDto> CreateMatchResult(int teamId, string result);
+
+
 
 
 

@@ -1,0 +1,158 @@
+﻿<style>
+
+    body {
+        background-image: url('https://footballtube.in/wp-content/uploads/2024/05/euro-2024-hd-wallpaper.jpg'); 
+        background-repeat: round;
+    }
+
+    .stadium-view {
+        position: relative;
+        width: 100%;
+        height: 1000px;
+        overflow: hidden;
+    }
+
+    .stadium-background {
+        width: 100%;
+        height: auto;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1; 
+    }
+
+    .game-info {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        color: white;
+    }
+
+        .game-info h1 {
+            font-size: 3rem;
+        }
+
+        .game-info button {
+            font-size: 1.5rem;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+            .game-info button:hover {
+                background-color: #45a049;
+            }
+
+
+    .game-statistics {
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+        margin-top: 20px; 
+    }
+
+        .game-statistics.active {
+            opacity: 1;
+        }
+
+    .spinner-border {
+        margin-left: 10px; 
+    }
+
+    #gameResultContainer {
+        display: flex;
+        justify-content: center;
+    }
+
+</style>
+
+<h1 class="text-center" style="color:greenyellow">Match Lobby</h1>
+<br />
+<br />
+<br />
+<div class="stadium-view">
+    <img src="~/img/stadium/stadium.jpg" class="stadium-background" alt="Stadium View" />
+
+    <div class="game-info">
+        <div class="input-group mb-3">
+            <span class="input-group-text">Bet Amount:</span>
+            <input id="betAmount" type="number" class="form-control" value="5" min="1" step="1">
+            <button class="btn btn-outline-secondary" type="button" id="btnMinus">
+                <i class="bi bi-dash"></i>
+            </button>
+            <button class="btn btn-outline-secondary" type="button" id="btnPlus">
+                <i class="bi bi-plus"></i>
+            </button>
+        </div>
+
+        <button id="startGameBtn" class="btn btn-warning">Start Game</button>
+        <div id="loadingSpinner" class="spinner-border text-primary d-none" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+   
+    <div id="gameResultContainer">
+      
+    </div>
+</div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var startGameBtn = document.getElementById('startGameBtn');
+        var loadingSpinner = document.getElementById('loadingSpinner'); 
+        var gameResultContainer = document.getElementById('gameResultContainer'); 
+        var betAmountInput = document.getElementById('betAmount');
+        var btnMinus = document.getElementById('btnMinus'); 
+        var btnPlus = document.getElementById('btnPlus'); 
+
+        btnMinus.addEventListener('click', function () {
+            var currentValue = parseInt(betAmountInput.value) || 0;
+            betAmountInput.value = Math.max(currentValue - 5, 5); 
+        });
+
+        btnPlus.addEventListener('click', function () {
+            var currentValue = parseInt(betAmountInput.value) || 0;
+            betAmountInput.value = currentValue + 5;
+        });
+
+        if (startGameBtn && loadingSpinner && gameResultContainer) {
+            startGameBtn.addEventListener('click', function () {
+                var betAmount = parseInt(betAmountInput.value) || 0;
+
+                loadingSpinner.classList.remove('d-none');
+
+                setTimeout(function () {
+                   
+                    loadingSpinner.classList.add('d-none'); 
+
+                    fetch('/Fantasy/DetermineGameResult', {
+                        method: 'POST',
+                        body: JSON.stringify({ betAmount: betAmount }),
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                        .then(response => response.text())
+                        .then(resultHtml => {
+
+                            gameResultContainer.innerHTML = resultHtml;
+                        })
+                        .catch(error => {
+                            console.error('Error fetching game result:', error);
+                        });
+                }, 2000); 
+            });
+        } else {
+            console.error('Elements not found.');
+        }
+    });
+
+
+</script>
+
+

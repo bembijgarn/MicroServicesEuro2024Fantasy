@@ -31,7 +31,7 @@ namespace Euro2024Stat.FantasyAPI.Controllers
             try
             {
                 await _mediator.Send(new CreateTeamCommand(model));
-                return _response;
+
             }catch (Exception ex)
             {
                 _response.IsSuccess = false;
@@ -47,7 +47,6 @@ namespace Euro2024Stat.FantasyAPI.Controllers
             try
             {
                 await _mediator.Send(new BuyPlayerCommand(userId, playerId, playerName));
-                return _response;
             }
             catch (Exception ex)
             {
@@ -64,7 +63,6 @@ namespace Euro2024Stat.FantasyAPI.Controllers
             try
             {
                 await _mediator.Send(new SellPlayerCommand(userId, playerId));
-                return _response;
             }
             catch (Exception ex)
             {
@@ -82,7 +80,23 @@ namespace Euro2024Stat.FantasyAPI.Controllers
             {
                 bool haveuserFantasy = await _mediator.Send(new HaveUserFantasyQuery(userId));
                 _response.Result = haveuserFantasy;
-                return _response;
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.Message = ex.Message;
+            }
+            return _response;
+        }
+
+        [HttpGet]
+        [Route("GetTeamIdByUserId")]
+        public async Task<ResponseDto> GetTeamIdByUserId(string userId)
+        {
+            try
+            {
+                int TeamId = await _mediator.Send(new GetTeamIdByUserIdQuery(userId));
+                _response.Result = TeamId;
             }
             catch (Exception ex)
             {
@@ -100,7 +114,6 @@ namespace Euro2024Stat.FantasyAPI.Controllers
             {
                 var Fantasyplayers = await _mediator.Send(new GetPlayerIdsQuery(userId));
                 _response.Result = Fantasyplayers;
-                return _response;
             }
             catch (Exception ex)
             {
@@ -110,6 +123,22 @@ namespace Euro2024Stat.FantasyAPI.Controllers
             return _response;
         }
 
-        
+        [HttpPost]
+        [Route("CreateMatchResult")]
+        public async Task<ResponseDto> CreateMatchResult(int teamId, string result)
+        {
+            try
+            {
+                await _mediator.Send(new CreateMatchResultCommand(teamId, result));
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.Message = ex.Message;
+            }
+            return _response;
+        }
+
+
     }
 }

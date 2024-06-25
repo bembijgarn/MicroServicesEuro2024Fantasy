@@ -10,5 +10,7 @@ namespace Euro2024Stat.FantasyAPI.Interface
         Task BuyPlayer(string userId, int playerId, string playerName);
         Task SellPlayer(string userId, int playerId);
         Task<IEnumerable<FantasyPlayerDto>> GetPlayerIds(string userId);
+        Task<int> GetTeamIdByUserId(string userId);
+        Task CreateMatchResult(int teamId, string result);
     }
 }
