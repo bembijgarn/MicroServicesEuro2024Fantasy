@@ -2,6 +2,7 @@
 
 @{
     int x = 0;
+    var Group = ViewBag.group;
 }
 <style>
     .grp {
@@ -12,7 +13,7 @@
 <div class="row">
     <div class="col-md-12 text-center">
         <br /><br />
-        <h5>Group <h3>@Model.Matches.First().Group</h3></h5>
+         <h5>Group @Group</h5>
         <div class="row">
             <div class="card grp">
                 <div class="card-body custom-card-body">
@@ -55,7 +56,7 @@
         <h3>
 
 
-            <h3>Group @Model.Matches.First().Group Results</h3>
+            <h3>Group @Group Results</h3>
         </h3>
         <br /><br />
         <div class="row">

@@ -186,7 +186,7 @@
                                 <i class="bi bi-pencil-square">Edit</i>
                             </a>
                             <form method="post" asp-controller="AdminEntities" asp-action="ResetMatch" asp-route-matchId="@match.ID" , asp-route-homeCountryId="@match.HomeCountryID" ,
-                                  asp-route-awayCountryId="@match.AwayCountryID" , asp-route-homeScore="@match.MatchResults.HomeScore" , asp-route-awayScore="@match.MatchResults.AwayScore">
+                                  asp-route-awayCountryId="@match.AwayCountryID" , asp-route-homeScore="@match.MatchResults.HomeScore" , asp-route-awayScore="@match.MatchResults.AwayScore" , asp-route-groupId="@match.Group">
                                 <button type="submit" class="btn btn-danger">
                                     <i class="bi bi-arrow-counterclockwise"></i> Reset
                                 </button>

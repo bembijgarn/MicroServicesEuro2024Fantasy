@@ -66,6 +66,8 @@ namespace Euro2024Stat.Web.Controllers
             var ViewModel = new GroupMatchesViewModel(GroupMatches, Countries, GroupMatchResults);
             ViewModel.Countries = ViewModel.Countries.OrderByDescending(x => x.Point).ThenByDescending(x => x.GoalsFor).ToList();
 
+            ViewBag.group = groupId;
+
             return View(ViewModel);
         }
 

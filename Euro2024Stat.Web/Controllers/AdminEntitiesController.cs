@@ -45,10 +45,10 @@ namespace Euro2024Stat.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ResetMatch(int matchId, int homeCountryId, int awayCountryId, int homeScore, int awayScore, string group)
+        public async Task<IActionResult> ResetMatch(int matchId, int homeCountryId, int awayCountryId, int homeScore, int awayScore, string groupId)
         {
             await _matchService.ResetMatch(matchId);
-            if (isGroupMatch(group))
+            if (isGroupMatch(groupId))
             {
 				await _countryService.RollBackStatistic(homeCountryId, awayCountryId, homeScore, awayScore);
 
