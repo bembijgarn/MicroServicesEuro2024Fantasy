@@ -1,4 +1,5 @@
 ﻿using Euro2024Stat.PlayerAPI.Interface;
+using Euro2024Stat.PlayerAPI.Models.Dto;
 using EURO2024Stat.DATA;
 using EURO2024Stat.Domain;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +21,15 @@ namespace Euro2024Stat.PlayerAPI.Service
             var Player = await _db.Players.FirstOrDefaultAsync(x => x.ID == Id);
             return Player;
         }
+
+        public async Task<IEnumerable<Player>> GetPlayersByPlayerIds(List<FantasyPlayerDto> playerDto)
+        {
+            var playerIds = playerDto.Select(dto => dto.PlayerId).ToList();
+
+            var players = await _db.Players.Where(x => playerIds.Contains(x.ID)).ToListAsync();
+            return players;
+        }
+
 
         async Task<IEnumerable<Player>> IPlayer.GetPlayerByCountryId(int CountryId) => await Task.FromResult(_db.Players.Where(x => x.CountryID == CountryId));
         

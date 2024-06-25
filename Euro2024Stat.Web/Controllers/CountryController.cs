@@ -12,7 +12,7 @@ using System.IdentityModel.Tokens.Jwt;
 namespace Euro2024Stat.Web.Controllers
 {
     
-    public class CountryController : Controller
+    public class CountryController : BaseController
     {
         private readonly ICountry _countryservice;
         private readonly IPlayer _playerService;
@@ -20,7 +20,7 @@ namespace Euro2024Stat.Web.Controllers
         private readonly IFantasy _fantasyService;
 
 
-        public CountryController(ICountry countryservice, IPlayer playerService, IMatch matchService, IFantasy fantasyService)
+        public CountryController(IWallet walletService,ICountry countryservice, IPlayer playerService, IMatch matchService, IFantasy fantasyService) : base (walletService, fantasyService)
         {
             _countryservice = countryservice;
             _playerService = playerService;
@@ -45,14 +45,13 @@ namespace Euro2024Stat.Web.Controllers
         [Authorize]
         public async Task<IActionResult> CountryDetail(int countryId)
         {
-            var userId = User.Claims.Where(u => u.Type == JwtRegisteredClaimNames.Sub)?.FirstOrDefault()?.Value;
 
             ResponseDto? countryResponse = await _countryservice.GetCountryById(countryId);
             ResponseDto? playersResponse = await _playerService.GetPlayerByCountryId(countryId);
 			ResponseDto? matchResponse = await _matchService.GetCountryMatches(countryId);
             ResponseDto? matchResultResponse = await _matchService.GetMatchesWithResults();
-            ResponseDto? response = await _fantasyService.HaveUserFantasy(userId);
-            ViewBag.HasTeam = (bool)response.Result;
+            ResponseDto? response = await _fantasyService.HaveUserFantasy(Userid);
+            ViewBag.HasTeam = HasFantasyTeam;
 
             var country = new Countrydto();
             var players = new List<PlayerDto>();

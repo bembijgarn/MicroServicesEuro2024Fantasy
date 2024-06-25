@@ -8,24 +8,19 @@ using System.IdentityModel.Tokens.Jwt;
 namespace Euro2024Stat.Web.Controllers
 {
     [Authorize]
-    public class WalletController : Controller
+    public class WalletController : BaseController
     {
         private readonly IWallet _walletService;
 
-        public WalletController(IWallet walletService)
+        public WalletController(IWallet walletService, IFantasy fantasyService) : base(walletService, fantasyService)
         {
-            _walletService = walletService;
+            _walletService = walletService; 
         }
 
         public async Task <IActionResult> Index()
         {
-            var userId = User.Claims.Where(u => u.Type == JwtRegisteredClaimNames.Sub)?.FirstOrDefault()?.Value;
-            var userName = User.Claims.Where(u => u.Type == JwtRegisteredClaimNames.Name)?.FirstOrDefault()?.Value;
-            ResponseDto? responsewalletDto = await _walletService.CreateWallet(userId, userName);
-
-            decimal Balance = 0;
-            ResponseDto? responseDto = await _walletService.GetBalance(userId);
-            ApiHelper.APIGetDeserializedobject(responseDto, out Balance);
+     
+            ResponseDto? responsewalletDto = await _walletService.CreateWallet(Userid, UserName);         
             ViewBag.Balance = Balance;
 
             return View();
@@ -34,8 +29,7 @@ namespace Euro2024Stat.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Deposit(decimal amount)
         {
-            var userId = User.Claims.Where(u => u.Type == JwtRegisteredClaimNames.Sub)?.FirstOrDefault()?.Value;
-            ResponseDto? responseDto = await _walletService.Deposit(userId, amount);
+            ResponseDto? responseDto = await _walletService.Deposit(Userid, amount);
             return RedirectToAction("Index");
         }
 
@@ -43,8 +37,7 @@ namespace Euro2024Stat.Web.Controllers
         public async Task<IActionResult> Withdraw(decimal amount)
         {
             bool isSuccess = true;
-            var userId = User.Claims.Where(u => u.Type == JwtRegisteredClaimNames.Sub)?.FirstOrDefault()?.Value;
-            ResponseDto? responseDto = await _walletService.Withdraw(userId, amount);
+            ResponseDto? responseDto = await _walletService.Withdraw(Userid, amount);
 
 
             return RedirectToAction("Index");

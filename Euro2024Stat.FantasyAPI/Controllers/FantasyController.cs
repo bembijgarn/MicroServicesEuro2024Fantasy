@@ -57,6 +57,23 @@ namespace Euro2024Stat.FantasyAPI.Controllers
             return _response;
         }
 
+        [HttpPost]
+        [Route("SellPlayer")]
+        public async Task<ResponseDto> SellPlayer(string userId, int playerId)
+        {
+            try
+            {
+                await _mediator.Send(new SellPlayerCommand(userId, playerId));
+                return _response;
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.Message = ex.Message;
+            }
+            return _response;
+        }
+
         [HttpGet]
         [Route("HaveUserFantasy")]
         public async Task<ResponseDto> HaveUserFantasy(string userId)
@@ -74,5 +91,25 @@ namespace Euro2024Stat.FantasyAPI.Controllers
             }
             return _response;
         }
+
+        [HttpGet]
+        [Route("GetFantasyPlayers")]
+        public async Task<ResponseDto> GetFantasyPlayers(string userId)
+        {
+            try
+            {
+                var Fantasyplayers = await _mediator.Send(new GetPlayerIdsQuery(userId));
+                _response.Result = Fantasyplayers;
+                return _response;
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.Message = ex.Message;
+            }
+            return _response;
+        }
+
+        
     }
 }

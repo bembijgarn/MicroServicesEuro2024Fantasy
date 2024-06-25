@@ -1,6 +1,7 @@
 ﻿using Euro2024Stat.Web.Helper;
 using Euro2024Stat.Web.Interface;
 using Euro2024Stat.Web.Models;
+using Euro2024Stat.Web.Models.Dto;
 
 namespace Euro2024Stat.Web.Service
 {
@@ -28,5 +29,17 @@ namespace Euro2024Stat.Web.Service
                 Url = ApiHelper.PlayerAPIBase + "/api/Player/GetPlayerById?Id=" + playerId
             });
         }
+
+        public async Task<ResponseDto?> GetPlayersByPlayerIds(List<FantasyPlayerDto> playerIds)
+        {
+            return await _service.SendAsync(new RequestDto()
+            {
+                ApiType = ApiHelper.ApiType.POST,
+                Data = playerIds,
+                Url = ApiHelper.PlayerAPIBase + "/api/Player/GetPlayersByIds"
+            });
+        }
+
+       
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Euro2024Stat.Web.Helper;
 using Euro2024Stat.Web.Interface;
 using Euro2024Stat.Web.Models;
+using Euro2024Stat.Web.Models.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
@@ -8,23 +9,31 @@ using System.IdentityModel.Tokens.Jwt;
 namespace Euro2024Stat.Web.Controllers
 {
     [Authorize]
-    public class FantasyController : Controller
+    public class FantasyController : BaseController
     {
         private readonly IFantasy _fantasyService;
         private readonly IPlayer _playerService;
-        public FantasyController(IFantasy fantasyService, IPlayer playerService)
+        private readonly IWallet _walletService;
+        public FantasyController(IWallet walletService,IFantasy fantasyService, IPlayer playerService) : base (walletService, fantasyService)
         {
             _fantasyService = fantasyService;
             _playerService = playerService;
+            _walletService = walletService; 
         }
 
         public async Task<IActionResult> Index()
-        {
-            
-            var userId = User.Claims.Where(u => u.Type == JwtRegisteredClaimNames.Sub)?.FirstOrDefault()?.Value;
-            ResponseDto? response = await _fantasyService.HaveUserFantasy(userId);
-            ViewBag.HasTeam = (bool)response.Result;
-            return View();
+        {          
+            ViewBag.HasTeam = HasFantasyTeam;
+
+            var PlayerIds = new List<FantasyPlayerDto>();
+            ResponseDto? fantasyplayerIdssResponse = await _fantasyService.GetFantasyPlayers(Userid);
+            ApiHelper.APIGetDeserializedList(fantasyplayerIdssResponse, out PlayerIds);
+
+            var FantasyTeamPlayers = new List<PlayerDto>();
+            ResponseDto? fantasyFullTeamResponse = await _playerService.GetPlayersByPlayerIds(PlayerIds);
+            ApiHelper.APIGetDeserializedList(fantasyFullTeamResponse, out FantasyTeamPlayers);
+
+            return View(FantasyTeamPlayers);
         }
 
         [HttpGet]
@@ -36,12 +45,12 @@ namespace Euro2024Stat.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateTeam(FantasyTeamDto model)
         {
-            var userId = User.Claims.Where(u => u.Type == JwtRegisteredClaimNames.Sub)?.FirstOrDefault()?.Value;
-            model.UserId = userId;
+           
+            model.UserId = Userid;
             ResponseDto? responseDto = await _fantasyService.CreateFantasyTeam(model);
             TempData["success"] = "Team  Created Successful";
 
-
+            
             return View(model); 
         }
         [HttpGet]
@@ -56,11 +65,25 @@ namespace Euro2024Stat.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> BuyPlayer(int playerId, decimal amount, string playerName)
         {
-            var userId = User.Claims.Where(u => u.Type == JwtRegisteredClaimNames.Sub)?.FirstOrDefault()?.Value;
-            ResponseDto? responseDto = await _fantasyService.BuyPlayer(userId, playerId, playerName);
+            if (Balance >= amount)
+            {
+                await _fantasyService.BuyPlayer(Userid, playerId, playerName);
+            }
 
-            //TODO : wallet balance!!!
-            return RedirectToAction("Index","Country");
+            await _walletService.Withdraw(Userid, amount); // buy
+           
+            return RedirectToAction("Index","Fantasy");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> SellPlayer(int playerId, decimal amount)
+        {
+            await _fantasyService.SellPlayer(Userid, playerId);
+            await _walletService.Deposit(Userid, (amount * 0.8m)); // Sell
+
+            return RedirectToAction(nameof(Index));
+        }
+
+       
     }
 }

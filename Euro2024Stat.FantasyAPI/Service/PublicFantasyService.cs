@@ -1,4 +1,5 @@
 ﻿using Euro2024Stat.FantasyAPI.Interface;
+using Euro2024Stat.FantasyAPI.Models.Dto;
 using EURO2024Stat.DATA;
 using EURO2024Stat.Domain;
 using Microsoft.EntityFrameworkCore;
@@ -32,6 +33,21 @@ namespace Euro2024Stat.FantasyAPI.Service
             }
         }
 
+        public async Task SellPlayer(string userId, int playerId)
+        {
+            var userTeam  = await _db.Teams.SingleOrDefaultAsync(x => x.UserId == userId);
+            if (userTeam != null)
+            {
+                var player = await  _db.TeamPlayers.SingleOrDefaultAsync(x => x.PlayerId == playerId && x.UserID == userId);
+                if (player != null)
+                {
+                    _db.TeamPlayers.Remove(player);
+                    await _db.SaveChangesAsync();
+                }
+            }
+
+        }
+
         public async Task CreateTeam(FantasyTeam model)
         {
             var checkfantasyteam = await _db.Teams.SingleOrDefaultAsync(x => x.UserId == model.UserId);
@@ -40,6 +56,21 @@ namespace Euro2024Stat.FantasyAPI.Service
                 _db.Teams.Add(model);
                 await _db.SaveChangesAsync();
             }
+        }
+
+        public async Task<IEnumerable<FantasyPlayerDto>> GetPlayerIds(string userId)
+        {
+            var checkfantasyteam = await _db.Teams.SingleOrDefaultAsync(x => x.UserId == userId);
+            if (checkfantasyteam != null)
+            {
+                var playerIds = await _db.TeamPlayers
+                                        .Where(tp => tp.UserID == userId)
+                                        .Select(tp => new FantasyPlayerDto { PlayerId = tp.PlayerId })
+                                        .ToListAsync();
+
+                return playerIds;
+            }
+            return Enumerable.Empty<FantasyPlayerDto>(); 
         }
 
         public async Task<bool> HaveUserFantasy(string userId)

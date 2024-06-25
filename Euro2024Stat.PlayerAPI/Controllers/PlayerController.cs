@@ -74,5 +74,23 @@ namespace Euro2024Stat.PlayerAPI.Controllers
             }
             return _response;
         }
+
+        [HttpPost]
+        [Route("GetPlayersByIds")]
+        public async Task<ResponseDto> GetPlayersByIds(List<FantasyPlayerDto> playerIds)
+        {
+            try
+            {
+                var Player = await _mediator.Send(new GetPlayersByIdsQuery(playerIds));
+                _response.Result = Player;
+
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.Message = ex.Message;
+            }
+            return _response;
+        }
     }
 }
