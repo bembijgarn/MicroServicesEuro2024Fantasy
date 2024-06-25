@@ -39,7 +39,7 @@ namespace Euro2024Stat.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> CreateTeam()
         {
-            return View();
+            return View(); 
         }
 
         [HttpPost]
