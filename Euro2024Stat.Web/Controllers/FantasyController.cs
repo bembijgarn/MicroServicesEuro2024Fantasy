@@ -33,7 +33,19 @@ namespace Euro2024Stat.Web.Controllers
             ResponseDto? fantasyFullTeamResponse = await _playerService.GetPlayersByPlayerIds(PlayerIds);
             ApiHelper.APIGetDeserializedList(fantasyFullTeamResponse, out FantasyTeamPlayers);
 
-            return View(FantasyTeamPlayers);
+
+            int teamId;
+            ResponseDto? teamIdresponse = await _fantasyService.GetTeamIdByUserId(Userid);
+            ApiHelper.APIGetDeserializedobject(teamIdresponse, out teamId);
+
+            var FantasyMatchResults = new List<FantasyMatchResultDto>();
+            ResponseDto? fantasyMatchResultResponse = await _fantasyService.GetFantasyMatchResultByTeamId(teamId);
+            ApiHelper.APIGetDeserializedList(fantasyMatchResultResponse, out FantasyMatchResults);
+
+            var result = new FantasyTeamIndexViewModel(FantasyTeamPlayers, FantasyMatchResults);
+
+
+            return View(result);
         }
 
         [HttpGet]
@@ -96,7 +108,7 @@ namespace Euro2024Stat.Web.Controllers
         public async Task<IActionResult> DetermineGameResult([FromBody] BetModelDto model)
         {
             int teamId;
-           await Task.Delay(2000);
+            await Task.Delay(2000);
             Random random = new Random();
             int result = random.Next(0, 3);
 
@@ -110,9 +122,12 @@ namespace Euro2024Stat.Web.Controllers
             ResponseDto? teamIdresponse = await _fantasyService.GetTeamIdByUserId(Userid);
             ApiHelper.APIGetDeserializedobject(teamIdresponse, out teamId);
 
-
-            var matchResult = await returnstringResult(result);
-            await _fantasyService.CreateMatchResult(teamId, matchResult);
+            if (result != 3)
+            {
+                var matchResult = await returnstringResult(result);
+                await _fantasyService.CreateMatchResult(teamId, matchResult);
+            }
+           
 
             ViewBag.GameResult = result;
 

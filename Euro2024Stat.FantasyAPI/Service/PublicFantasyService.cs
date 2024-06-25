@@ -10,7 +10,7 @@ namespace Euro2024Stat.FantasyAPI.Service
     {
         private readonly FantasyContext _db;
 
-        public PublicFantasyService (FantasyContext db) => _db = db;
+        public PublicFantasyService(FantasyContext db) => _db = db;
 
         public async Task BuyPlayer(string userId, int playerId, string playerName)
         {
@@ -29,16 +29,16 @@ namespace Euro2024Stat.FantasyAPI.Service
                     _db.TeamPlayers.Add(FantasyTeamPlayer);
                     await _db.SaveChangesAsync();
                 }
-               
+
             }
         }
 
         public async Task SellPlayer(string userId, int playerId)
         {
-            var userTeam  = await _db.Teams.SingleOrDefaultAsync(x => x.UserId == userId);
+            var userTeam = await _db.Teams.SingleOrDefaultAsync(x => x.UserId == userId);
             if (userTeam != null)
             {
-                var player = await  _db.TeamPlayers.SingleOrDefaultAsync(x => x.PlayerId == playerId && x.UserID == userId);
+                var player = await _db.TeamPlayers.SingleOrDefaultAsync(x => x.PlayerId == playerId && x.UserID == userId);
                 if (player != null)
                 {
                     _db.TeamPlayers.Remove(player);
@@ -70,7 +70,7 @@ namespace Euro2024Stat.FantasyAPI.Service
 
                 return playerIds;
             }
-            return Enumerable.Empty<FantasyPlayerDto>(); 
+            return Enumerable.Empty<FantasyPlayerDto>();
         }
 
         public async Task<bool> HaveUserFantasy(string userId)
@@ -107,6 +107,24 @@ namespace Euro2024Stat.FantasyAPI.Service
                 _db.MatchResults.Add(matchResult);
                 await _db.SaveChangesAsync();
             }
+        }
+
+        public async Task<List<FantasyMatchResultDto>> GetMatchResultsByTeamId(int teamId)
+        {
+            var team = await _db.Teams.SingleOrDefaultAsync(x => x.ID == teamId);
+            if (team != null)
+            {
+                var matchResults = await _db.MatchResults
+                    .Where(x => x.TeamID == teamId)
+                    .Select(x => new FantasyMatchResultDto()
+                    {
+                        Result = x.Result,
+                        DateTime = x.MatchDate
+                    }).ToListAsync();
+
+                return matchResults;
+            }
+            return new List<FantasyMatchResultDto>();
         }
     }
 }

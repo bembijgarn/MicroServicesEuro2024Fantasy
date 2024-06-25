@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PlayerDto>
+﻿@model FantasyTeamIndexViewModel
 @{
     bool HasFantasyTeam = ViewBag.HasTeam;
 }
@@ -54,6 +54,33 @@
         .player-card p {
             margin-bottom: 3px;
         }
+
+
+    .result-card {
+        border: 1px solid #ccc;
+        border-radius: 13%;
+    }
+
+        .result-card p {
+            margin: 5px 0;
+        }
+
+        .result-card.lose {
+            background-color: red;
+            color: white;
+        }
+
+        .result-card.win {
+            background-color: green;
+            color: white;
+        }
+
+        .result-card.draw {
+            background-color: orange;
+            color: white;
+        }
+
+    
 </style>
 
 <body>
@@ -65,7 +92,7 @@
                     <i class="bi bi-plus-circle icon"></i>
                     Create Fantasy Team
                 </a>
-            }else if(!Model.Any())
+            }else if(!Model.fantasyPlayers.Any())
             {
                 <a asp-controller="Country" asp-action="Index" class="fantasy-button">
                     <i class="bi bi-plus-circle icon"></i>
@@ -86,11 +113,11 @@
     <div class="container mt-5">
         <div class="row">
             <div class="col-md-12">
-                <h4 class="text-center">Your Squad</h4>
+                <h4 class="text-center">Your Fantasy Squad</h4>
                 <br />
                 <br />
                 <div class="d-flex flex-wrap justify-content-start">
-                    @foreach (var player in Model)
+                    @foreach (var player in Model.fantasyPlayers)
                     {
                         <div class="player-card mx-2 mb-3">
                             <img src="@Url.Content($"~/img/Player/{player.ID}/{player.ID}.jpg")" alt="@player.Name" class="img-fluid rounded-circle" style="width: 70px; height: 70px;" />
@@ -119,7 +146,22 @@
                    
                 </div>
                 <br />
-                <h3 class="text-center">Squad Price : @Model.Sum(x=> x.FantasyPrice) $</h3>
+                <h3 class="text-center">Fantasy Squad Price : @Model.fantasyPlayers.Sum(x => x.FantasyPrice) $</h3>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-md-12">
+                <h4 class="text-center">Fantasy Team Results</h4>
+                <br />
+                <div class="d-flex flex-wrap justify-content-start">
+                    @foreach (var result in Model.fantasyMatches)
+                    {
+                        <div class="result-card mx-1 mb-2 @result.Result.ToLower()" style="width: 11%; display: inline; height: 64px;">
+                            <p class="text-center">@result.Result</p>
+                            <p class="text-center">@result.DateTime.ToString("dd MMM yyyy, HH:mm")</p>
+                        </div>
+                    }
+                </div>
             </div>
         </div>
     </div>

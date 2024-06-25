@@ -139,6 +139,23 @@ namespace Euro2024Stat.FantasyAPI.Controllers
             return _response;
         }
 
+        [HttpGet]
+        [Route("GetFantasyMatchResultsByTeamId")]
+        public async Task<ResponseDto> GetFantasyMatchResultsByTeamId(int teamId)
+        {
+            try
+            {
+               var fantasyMatchResults =  await _mediator.Send(new GetMatchResultsByTeamIdQuery(teamId));
+                _response.Result = fantasyMatchResults;
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.Message = ex.Message;
+            }
+            return _response;
+        }
+
 
     }
 }

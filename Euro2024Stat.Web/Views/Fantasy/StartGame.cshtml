@@ -104,15 +104,15 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         var startGameBtn = document.getElementById('startGameBtn');
-        var loadingSpinner = document.getElementById('loadingSpinner'); 
-        var gameResultContainer = document.getElementById('gameResultContainer'); 
+        var loadingSpinner = document.getElementById('loadingSpinner');
+        var gameResultContainer = document.getElementById('gameResultContainer');
         var betAmountInput = document.getElementById('betAmount');
-        var btnMinus = document.getElementById('btnMinus'); 
-        var btnPlus = document.getElementById('btnPlus'); 
+        var btnMinus = document.getElementById('btnMinus');
+        var btnPlus = document.getElementById('btnPlus');
 
         btnMinus.addEventListener('click', function () {
             var currentValue = parseInt(betAmountInput.value) || 0;
-            betAmountInput.value = Math.max(currentValue - 5, 5); 
+            betAmountInput.value = Math.max(currentValue - 5, 5);
         });
 
         btnPlus.addEventListener('click', function () {
@@ -124,12 +124,12 @@
             startGameBtn.addEventListener('click', function () {
                 var betAmount = parseInt(betAmountInput.value) || 0;
 
+                // Disable the start button
+                startGameBtn.disabled = true;
+
                 loadingSpinner.classList.remove('d-none');
 
                 setTimeout(function () {
-                   
-                    loadingSpinner.classList.add('d-none'); 
-
                     fetch('/Fantasy/DetermineGameResult', {
                         method: 'POST',
                         body: JSON.stringify({ betAmount: betAmount }),
@@ -139,20 +139,25 @@
                     })
                         .then(response => response.text())
                         .then(resultHtml => {
-
+                            loadingSpinner.classList.add('d-none');
                             gameResultContainer.innerHTML = resultHtml;
+
+                            // Enable the start button
+                            startGameBtn.disabled = false;
                         })
                         .catch(error => {
                             console.error('Error fetching game result:', error);
+
+                            // Enable the start button in case of an error
+                            startGameBtn.disabled = false;
                         });
-                }, 2000); 
+                }, 2000);
             });
         } else {
             console.error('Elements not found.');
         }
     });
-
-
 </script>
+
 
 

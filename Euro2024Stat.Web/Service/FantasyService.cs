@@ -80,5 +80,15 @@ namespace Euro2024Stat.Web.Service
                 Url = ApiHelper.FantasyAPIBase + "/api/Fantasy/CreateMatchResult?teamId=" + teamId + "&result=" + result
             });
         }
+
+        public async Task<ResponseDto> GetFantasyMatchResultByTeamId(int teamId)
+        {
+
+            return await _service.SendAsync(new RequestDto()
+            {
+                ApiType = ApiHelper.ApiType.GET,
+                Url = ApiHelper.FantasyAPIBase + "/api/Fantasy/GetFantasyMatchResultsByTeamId?teamId=" + teamId
+            });
+        }
     }
 }
