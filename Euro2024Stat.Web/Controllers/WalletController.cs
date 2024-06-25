@@ -11,25 +11,36 @@ namespace Euro2024Stat.Web.Controllers
     public class WalletController : BaseController
     {
         private readonly IWallet _walletService;
+        private readonly ITransaction _transactionService;
 
-        public WalletController(IWallet walletService, IFantasy fantasyService) : base(walletService, fantasyService)
+        public WalletController(IWallet walletService, IFantasy fantasyService, ITransaction transactionService) : base(walletService, fantasyService)
         {
-            _walletService = walletService; 
+            _walletService = walletService;
+            _transactionService = transactionService;
         }
 
         public async Task <IActionResult> Index()
         {
-     
+            var userTransactions = new List<TransactionDto>();
+
             ResponseDto? responsewalletDto = await _walletService.CreateWallet(Userid, UserName);         
             ViewBag.Balance = Balance;
 
-            return View();
+            ResponseDto? responseTransactionsDto = await _transactionService.GetUserTransactions(Userid);
+            ApiHelper.APIGetDeserializedList(responseTransactionsDto, out userTransactions);
+
+
+
+
+            return View(userTransactions);
         }
 
         [HttpPost]
         public async Task<IActionResult> Deposit(decimal amount)
         {
             ResponseDto? responseDto = await _walletService.Deposit(Userid, amount);
+            await _transactionService.CreateTransaction(new TransactionDto(Userid, UserName, ApiHelper.TranType.Deposit.ToString(), amount));
+
             return RedirectToAction("Index");
         }
 
@@ -38,6 +49,11 @@ namespace Euro2024Stat.Web.Controllers
         {
             bool isSuccess = true;
             ResponseDto? responseDto = await _walletService.Withdraw(Userid, amount);
+            if (isSuccess)
+            {
+                await _transactionService.CreateTransaction(new TransactionDto(Userid, UserName, ApiHelper.TranType.Withdraw.ToString(), amount));
+            }
+
 
 
             return RedirectToAction("Index");

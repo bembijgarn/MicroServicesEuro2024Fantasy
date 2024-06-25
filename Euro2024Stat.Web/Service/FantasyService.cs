@@ -15,7 +15,7 @@ namespace Euro2024Stat.Web.Service
             _service = service;
         }
 
-        public async Task<ResponseDto> BuyPlayer(string userId, int playerId, string playerName)
+        public async Task<ResponseDto?> BuyPlayer(string userId, int playerId, string playerName)
         {
             return await _service.SendAsync(new RequestDto()
             {
@@ -24,7 +24,7 @@ namespace Euro2024Stat.Web.Service
             });
         }
 
-        public async Task<ResponseDto> SellPlayer(string userId, int playerId)
+        public async Task<ResponseDto?> SellPlayer(string userId, int playerId)
         {
             return await _service.SendAsync(new RequestDto()
             {
@@ -33,7 +33,7 @@ namespace Euro2024Stat.Web.Service
             });
         }
 
-        public async Task<ResponseDto> CreateFantasyTeam(FantasyTeamDto model)
+        public async Task<ResponseDto?> CreateFantasyTeam(FantasyTeamDto model)
         {
             return await _service.SendAsync(new RequestDto()
             {
@@ -43,7 +43,7 @@ namespace Euro2024Stat.Web.Service
             });
         }
 
-        public async Task<ResponseDto> GetFantasyPlayers(string userId)
+        public async Task<ResponseDto?> GetFantasyPlayers(string userId)
         {
             return await _service.SendAsync(new RequestDto()
             {
@@ -54,7 +54,7 @@ namespace Euro2024Stat.Web.Service
 
        
 
-        public async Task<ResponseDto> HaveUserFantasy(string userId)
+        public async Task<ResponseDto?> HaveUserFantasy(string userId)
         {
             return await _service.SendAsync(new RequestDto()
             {
@@ -63,7 +63,7 @@ namespace Euro2024Stat.Web.Service
             });
         }
 
-        public async Task<ResponseDto> GetTeamIdByUserId(string userId)
+        public async Task<ResponseDto?> GetTeamIdByUserId(string userId)
         {
             return await _service.SendAsync(new RequestDto()
             {
@@ -72,7 +72,7 @@ namespace Euro2024Stat.Web.Service
             });
         }
 
-        public async Task<ResponseDto> CreateMatchResult(int teamId, string result)
+        public async Task<ResponseDto?> CreateMatchResult(int teamId, string result)
         {
             return await _service.SendAsync(new RequestDto()
             {
@@ -81,7 +81,7 @@ namespace Euro2024Stat.Web.Service
             });
         }
 
-        public async Task<ResponseDto> GetFantasyMatchResultByTeamId(int teamId)
+        public async Task<ResponseDto?> GetFantasyMatchResultByTeamId(int teamId)
         {
 
             return await _service.SendAsync(new RequestDto()

@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<TransactionDto>
+
+@{
     ViewData["Title"] = "Wallet Balance";
 }
 
@@ -74,6 +76,39 @@
             </div>
         </div>
     </div>
+    <br />
+    <br />
+    <br />
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>UserName</th>
+                            <th>TransactionType</th>
+                            <th>Amount</th>
+                            <th>Datetime</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var tran in Model)
+                        {
+                            <tr>                               
+                                <td>@tran.UserName</td>
+                                <td>@tran.TransactionType</td>
+                                <td>@tran.Amount</td>
+                                <td>@tran.TransactionDatetime</td>                                
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 

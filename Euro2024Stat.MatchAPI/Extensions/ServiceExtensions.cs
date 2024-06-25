@@ -8,7 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 
-namespace Euro2024Stat.CountryAPI.Extensions
+namespace Euro2024Stat.MatchAPI.Extensions
 {
     public static class ServiceExtensions
     {

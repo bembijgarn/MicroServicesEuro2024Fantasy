@@ -14,11 +14,13 @@ namespace Euro2024Stat.Web.Controllers
         private readonly IFantasy _fantasyService;
         private readonly IPlayer _playerService;
         private readonly IWallet _walletService;
-        public FantasyController(IWallet walletService, IFantasy fantasyService, IPlayer playerService) : base(walletService, fantasyService)
+        private readonly ITransaction _transactionService;
+        public FantasyController(IWallet walletService, IFantasy fantasyService, IPlayer playerService, ITransaction transactionService) : base(walletService, fantasyService)
         {
             _fantasyService = fantasyService;
             _playerService = playerService;
             _walletService = walletService;
+            _transactionService = transactionService;
         }
 
         public async Task<IActionResult> Index()
@@ -80,9 +82,11 @@ namespace Euro2024Stat.Web.Controllers
             if (Balance >= amount)
             {
                 await _fantasyService.BuyPlayer(Userid, playerId, playerName);
+                await _walletService.Withdraw(Userid, amount); // buy
+                await _transactionService.CreateTransaction(new TransactionDto(Userid, UserName, ApiHelper.TranType.Buy.ToString(), amount));
+
             }
 
-            await _walletService.Withdraw(Userid, amount); // buy
 
             return RedirectToAction("Index", "Fantasy");
         }
@@ -92,6 +96,7 @@ namespace Euro2024Stat.Web.Controllers
         {
             await _fantasyService.SellPlayer(Userid, playerId);
             await _walletService.Deposit(Userid, (amount * 0.8m)); // Sell
+            await _transactionService.CreateTransaction(new TransactionDto(Userid, UserName, ApiHelper.TranType.Sell.ToString(), (amount * 0.8m)));
 
             return RedirectToAction(nameof(Index));
         }
@@ -145,11 +150,20 @@ namespace Euro2024Stat.Web.Controllers
                 case 0:
                     {
                         await _walletService.Withdraw(userId, amount);
+                        await _transactionService.CreateTransaction(new TransactionDto(Userid, UserName, ApiHelper.TranType.Loss.ToString(), amount));
+
                         break;
                     }
                 case 1:
                     {
                         await _walletService.Deposit(Userid, amount);
+                        await _transactionService.CreateTransaction(new TransactionDto(Userid, UserName, ApiHelper.TranType.Win.ToString(), amount));
+
+                        break;
+                    }
+                default:
+                    {
+                        await _transactionService.CreateTransaction(new TransactionDto(Userid, UserName, ApiHelper.TranType.Draw.ToString(), amount));
                         break;
                     }
             }

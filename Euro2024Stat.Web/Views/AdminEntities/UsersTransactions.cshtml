@@ -1,0 +1,69 @@
+﻿@model IEnumerable<TransactionDto>
+
+
+
+
+<div class="text-center">
+	<h1 class="display-4">Users Transactions</h1>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>
+					ID
+				</th>
+				<th>
+					UserId
+				</th>
+				<th>
+					UserName
+				</th>
+				<th>
+					TransactionType
+				</th>
+				<th>
+					Amount
+				</th>
+				<th>
+					Datetime
+				</th>
+				<th>
+					Action
+				</th>				
+			</tr>
+		</thead>
+		<tbody>
+
+			@foreach (var item in Model)
+			{
+				<tr>
+					<td>
+						@item.ID
+					</td>
+					<td>
+						@item.UserID
+					</td>
+					<td>
+						@item.UserName
+					</td>
+					<td>
+						@item.TransactionType
+					</td>
+					<td>
+						@item.Amount
+					</td>
+					<td>
+						@item.TransactionDatetime
+					</td>					
+					<td>
+						<form method="post" asp-controller="AdminEntities" asp-action="DeleteTransaction" asp-route-transactionId="@item.ID">						  
+							<button type="submit" class="btn btn-danger">
+								<i class="bi bi-x"></i> Delete
+							</button>
+						</form>
+					</td>
+
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>

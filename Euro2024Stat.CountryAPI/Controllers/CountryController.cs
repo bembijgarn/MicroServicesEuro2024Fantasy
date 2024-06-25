@@ -1,5 +1,5 @@
 ﻿using Euro2024Stat.CountryAPI.Queries;
-using Euro2024Stat.PlayerAPI.Models.Dto;
+using Euro2024Stat.CountryAPI.Models.Dto;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

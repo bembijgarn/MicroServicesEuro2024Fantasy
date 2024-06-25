@@ -1,5 +1,5 @@
 ﻿using Euro2024Stat.CountryAPI.Commands;
-using Euro2024Stat.PlayerAPI.Models.Dto;
+using Euro2024Stat.CountryAPI.Models.Dto;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -27,7 +27,6 @@ namespace Euro2024Stat.CountryAPI.Controllers
             try
             {
                 await _mediator.Send(new UpdateStatisticCommand(homeCountryId, awayCountryId, homeGoals, awayGoals));
-                return _response;
 
             }catch (Exception ex)
             {
@@ -44,7 +43,6 @@ namespace Euro2024Stat.CountryAPI.Controllers
             try
             {
                 await _mediator.Send(new RollBackStatisticCommand(homeCountryId, awayCountryId, homeGoals, awayGoals));
-                return _response;
 
             }
             catch (Exception ex)

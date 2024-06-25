@@ -13,12 +13,14 @@ namespace Euro2024Stat.Web.Controllers
     {
         private readonly IMatch _matchService;
         private readonly ICountry _countryService;
+        private readonly ITransaction _transactionService;
 
 
-        public AdminEntitiesController (IMatch matchService, ICountry countryService)
+        public AdminEntitiesController (IMatch matchService, ICountry countryService, ITransaction transactionService)
         {         
             _matchService = matchService;
             _countryService = countryService;
+            _transactionService = transactionService;
         }
 
         [HttpGet]
@@ -55,5 +57,24 @@ namespace Euro2024Stat.Web.Controllers
 
             return RedirectToAction("MatchResults", "Match");
         }
-    }
+
+        [HttpGet]
+        public async Task<IActionResult> UsersTransactions()
+        {
+            var userTransactions = new List<TransactionDto>();
+        
+            ResponseDto? responseTransactionsDto = await _transactionService.GetAllUserTransactions();
+            ApiHelper.APIGetDeserializedList(responseTransactionsDto, out userTransactions);
+
+            return View(userTransactions);
+        }
+
+        public async Task<IActionResult> DeleteTransaction(int transactionId)
+        {
+
+            await _transactionService.DeleteTransactionById(transactionId);
+            return RedirectToAction(nameof(UsersTransactions));
+        }
+
+	}
 }

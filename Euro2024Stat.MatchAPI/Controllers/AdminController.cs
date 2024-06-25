@@ -1,5 +1,5 @@
 ﻿using Euro2024Stat.MatchAPI.Commands;
-using Euro2024Stat.PlayerAPI.Models.Dto;
+using Euro2024Stat.MatchAPI.Models.Dto;
 using EURO2024Stat.Domain;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -28,7 +28,6 @@ namespace Euro2024Stat.MatchAPI.Controllers
             try
             {
                  await _mediator.Send(new EditMatchResultCommand(matchId, model));
-                 return _response;
 
             }
             catch(Exception ex)
@@ -46,7 +45,6 @@ namespace Euro2024Stat.MatchAPI.Controllers
             try
             {
                 await _mediator.Send(new FinishMatchCommand(matchId));
-                return _response;
 
             }
             catch (Exception ex)
@@ -64,8 +62,6 @@ namespace Euro2024Stat.MatchAPI.Controllers
             try
             {
                 await _mediator.Send(new ResetMatchCommand(matchId));
-                return _response;
-
             }
             catch (Exception ex)
             {

@@ -1,4 +1,5 @@
 ﻿@using Microsoft.IdentityModel.JsonWebTokens
+@using Euro2024Stat.Web.Helper;
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,6 +40,12 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Fantasy" asp-action="Index">Fantasy</a>
                             </li>
+                            @if (User.IsInRole(ApiHelper.RoleAdmin))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="AdminEntities" asp-action="UsersTransactions">UserTransactions</a>
+                                </li>
+                            }
                         }
                     </ul>
                     <ul class="navbar-nav ms-auto">

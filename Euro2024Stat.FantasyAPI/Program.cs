@@ -1,4 +1,4 @@
-using Euro2024Stat.CountryAPI.Extensions;
+using Euro2024Stat.FantasyAPI.Extensions;
 using EURO2024Stat.Domain;
 
 var builder = WebApplication.CreateBuilder(args);

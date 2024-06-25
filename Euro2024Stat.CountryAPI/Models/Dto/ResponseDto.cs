@@ -1,4 +1,4 @@
-﻿namespace Euro2024Stat.PlayerAPI.Models.Dto
+﻿namespace Euro2024Stat.CountryAPI.Models.Dto
 {
     public class ResponseDto
     {
