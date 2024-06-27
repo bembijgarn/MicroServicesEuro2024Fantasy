@@ -16,8 +16,9 @@ namespace Euro2024Stat.Web.Interface
         Task<ResponseDto?> GetPlayoffCountryIdsByGroup(string groupId);
         Task<ResponseDto?> GetPlayoffWinnerTeamIds(string groupId);
         Task<ResponseDto?> GetWinnerTeamId(string groupId);
+        Task<ResponseDto?> GetLastMatchId();
 
-
+        
 
 
 

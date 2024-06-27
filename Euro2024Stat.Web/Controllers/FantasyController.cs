@@ -8,7 +8,6 @@ using System.IdentityModel.Tokens.Jwt;
 
 namespace Euro2024Stat.Web.Controllers
 {
-    [Authorize]
     public class FantasyController : BaseController
     {
         private readonly IFantasy _fantasyService;

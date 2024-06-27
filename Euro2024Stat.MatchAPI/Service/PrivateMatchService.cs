@@ -103,5 +103,8 @@ namespace Euro2024Stat.MatchAPI.Service
             return winnerTeamId;
 
         }
+
+        public async Task<int> GetLastMatchId() => await _db.Matches.OrderByDescending(x => x.ID).Select(x => x.ID).FirstOrDefaultAsync();
+        
     }
 }

@@ -1,0 +1,52 @@
+﻿@model IEnumerable<BettingBetModelDto>
+
+	<style>
+
+	.loss-row {
+		background-color: #f8d7da; 
+	}
+
+	.win-row {
+		background-color: #d4edda; 
+	}
+
+
+
+	</style>
+
+
+<div class="text-center">
+    <h1 class="display-4">Your Betting History</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>betId</th>
+                <th>Coefficient</th>
+                <th>BetAmount</th>
+                <th>Estimated Profit</th>
+                <th>DatePlaced</th>
+                <th>BetStatus</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                var rowClass = item.BetStatus switch
+                {
+                    "Loss" => "loss-row",
+                    "Win" => "win-row",
+                    _ => ""
+                };
+
+                <tr class="@rowClass">
+                    <td>@item.BetID</td>
+                    <td>@item.Coefficient</td>
+                    <td>@item.BetAmount</td>
+                    <td>@(item.BetAmount * item.Coefficient)</td>
+                    <td>@item.DatePlaced</td>
+                    <td>@item.BetStatus</td>                   
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

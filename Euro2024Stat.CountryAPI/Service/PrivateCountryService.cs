@@ -15,7 +15,7 @@ namespace Euro2024Stat.CountryAPI.Service
         {
             
             var top3ThCountries = await _db.Countries
-                .Where(c => !countryIds.Contains(c.ID))
+                .Where(c => !countryIds.Contains(c.ID) && c.Matches == 3)
                 .OrderByDescending(c => c.Point)
                 .ThenByDescending(c => c.GoalsFor - c.GoalsAgainst)
                 .Take(4) 

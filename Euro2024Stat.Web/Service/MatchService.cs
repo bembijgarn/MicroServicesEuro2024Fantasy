@@ -2,6 +2,7 @@
 using Euro2024Stat.Web.Interface;
 using Euro2024Stat.Web.Models;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace Euro2024Stat.Web.Service
 {
@@ -120,6 +121,15 @@ namespace Euro2024Stat.Web.Service
             {
                 ApiType = ApiHelper.ApiType.GET,
                 Url = ApiHelper.MatchAPIBase + "/api/Admin/Match/GetWinnerTeamId?group=" + groupId
+            });
+        }
+
+        public async Task<ResponseDto?> GetLastMatchId()
+        {
+            return await _service.SendAsync(new RequestDto()
+            {
+                ApiType = ApiHelper.ApiType.GET,
+                Url = ApiHelper.MatchAPIBase + "/api/Admin/Match/GetLastMatchId"
             });
         }
     }

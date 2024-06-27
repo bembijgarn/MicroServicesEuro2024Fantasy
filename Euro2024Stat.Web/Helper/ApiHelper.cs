@@ -11,6 +11,8 @@ namespace Euro2024Stat.Web.Helper
         public static string WalletAPIBase { get; set; }
         public static string FantasyAPIBase { get; set; }
         public static string TransactionApiBase { get; set; }
+        public static string BetAPIBase { get; set; }
+
 
 
         public const string RoleAdmin = "ADMIN";
@@ -32,6 +34,13 @@ namespace Euro2024Stat.Web.Helper
             final
 
         }
+
+        public enum SportBetStatus
+        {
+            Win,
+            Loss,
+            New
+        }
         public enum TranType
         {
             Deposit,
@@ -40,7 +49,9 @@ namespace Euro2024Stat.Web.Helper
             Win,
             Draw,
             Sell,
-            Buy
+            Buy,
+            SportBet,
+            SportWin
         }
 
         public const string Status_Pending = "Pending";

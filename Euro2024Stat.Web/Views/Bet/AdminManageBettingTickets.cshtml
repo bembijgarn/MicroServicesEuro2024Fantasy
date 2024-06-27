@@ -1,0 +1,70 @@
+﻿@model IEnumerable<BettingBetModelDto>
+
+
+<div class="text-center">
+	<h1 class="display-4">Users Sport Betting Tickets</h1>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>
+					BetId
+				</th>
+				<th>
+					UserId
+				</th>
+				<th>
+					Coefficient
+				</th>
+				<th>
+					BetAmount
+				</th>
+				<th>
+					DatePlaced
+				</th>
+				<th>
+					Action
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+
+			@foreach (var item in Model)
+			{
+				<tr>					
+					<td>
+						@item.BetID
+					</td>
+					<td>
+						@item.UserID
+					</td>
+					<td>
+						@item.Coefficient
+					</td>
+					<td>
+						@item.BetAmount
+					</td>
+					<td>
+						@item.DatePlaced
+					</td>
+					<td>
+						<form method="post" asp-controller="AdminEntities" asp-action="WinSportTicket" asp-route-betId="@item.BetID", 
+						asp-route-userId="@item.UserID", asp-route-coef="@item.Coefficient", asp-route-betAmount="@item.BetAmount">
+							<button type="submit" class="btn btn-success">
+								<i class="bi bi-check-square"></i> Win
+							</button>
+						</form>
+					</td>
+					<td>
+						<form method="post" asp-controller="AdminEntities" asp-action="LossSportTicket" asp-route-betId="@item.BetID" , 
+						asp-route-userId="@item.UserID" ,asp-route-betAmount="@item.BetAmount">
+							<button type="submit" class="btn btn-danger">
+								<i class="bi bi-x"></i> Lose
+							</button>
+						</form>
+					</td>
+
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>

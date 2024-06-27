@@ -1,0 +1,259 @@
+﻿@model IEnumerable<BetMatchesDto>
+@using Euro2024Stat.Web.Helper;
+
+
+@{
+    int matchCount = 0;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Betting View</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+            .header h1 {
+                margin: 0;
+                font-size: 24px;
+            }
+
+        .betting-story-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #007BFF;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+
+        .betting-admin-story-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: green;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+
+        .match {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+            .match:last-child {
+                border-bottom: none;
+            }
+
+        .team {
+            flex: 1;
+            text-align: center;
+        }
+
+        .coefficients {
+            display: flex;
+            justify-content: space-between;
+            flex: 1;
+            text-align: center;
+        }
+
+            .coefficients div {
+                flex: 1;
+                cursor: pointer;
+                padding: 10px;
+                border: 1px solid #ddd;
+                margin: 0 5px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+
+                .coefficients div:hover {
+                    background-color: #f0f0f0;
+                }
+
+                .coefficients div.selected {
+                    background-color: #007BFF;
+                    color: #fff;
+                }
+
+        .bet-box {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+            .bet-box h3 {
+                margin-top: 0;
+            }
+
+            .bet-box input {
+                width: 100%;
+                padding: 10px;
+                margin-top: 10px;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+            }
+
+            .bet-box .total-coef {
+                margin-top: 10px;
+            }
+
+        .coef-header {
+            display: flex;
+            justify-content: space-between;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+            .coef-header div {
+                flex: 1;
+                margin: 0 5px;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Euro 2024 Betting</h1>
+        </div>
+        <a asp-controller="Bet" asp-action="UserBetHistory" class="betting-story-btn">
+            Betting History
+        </a>
+        @if(User.IsInRole(ApiHelper.RoleAdmin))
+        {
+            <a asp-controller="Bet" asp-action="AdminManageBettingTickets" class="betting-admin-story-btn">
+                Manage Betting Tickets
+            </a>
+        }
+
+        <div class="coef-header">
+            <div>1</div>
+            <div>X</div>
+            <div>2</div>
+        </div>
+        <div class="matches">
+            @foreach (var match in Model)
+            {
+                matchCount++;
+                <div class="match" data-team-a="@match.HomeCountryName" data-team-b="@match.AwayCountryName" data-match-id="@match.MatchId">
+                    @matchCount
+                    <img src="@Url.Content($"~/img/Country/{match.HomeCountryId}/{match.HomeCountryId}.jpg")" alt="@match.HomeCountryName" height="50" width="70" />
+                    <div class="team">@match.HomeCountryName</div>
+                    <div class="coefficients">
+                        <div data-coef="@match.HomeCoefficient">@match.HomeCoefficient</div>
+                        <div data-coef="@match.DrawCoefficient">@match.DrawCoefficient</div>
+                        <div data-coef="@match.AwayCoefficient">@match.AwayCoefficient</div>
+                    </div>
+                    <div class="team">@match.AwayCountryName</div>
+                    <img src="@Url.Content($"~/img/Country/{match.AwayCountryId}/{match.AwayCountryId}.jpg")" alt="@match.AwayCountryName" height="50" width="70" />
+                </div>
+            }
+        </div>
+        <div class="bet-box">
+            <h3>Your Bet</h3>
+            <form asp-action="PlaceBet" asp-controller="Bet" method="post">
+                <div class="chosen-teams"></div>            
+                <input type="hidden" name="MatchId" id="matchId" />
+                <input type="hidden" name="TeamA" id="teamA" />
+                <input type="hidden" name="TeamB" id="teamB" />
+                <input type="hidden" name="SelectedCoefficient" id="selectedCoefficient" />
+                <input type="hidden" name="cof" id="coefficient" />
+                <input type="hidden" name="Coefficient" id="totalCoefficient" />
+                <input type="number" name="BetAmount" placeholder="Bet amount" min="1">
+                <button class="btn btn-success" type="submit" style="margin-top: 10px;">Place Bet</button>
+            </form>
+            <div class="total-coef">Total Coefficient: <span id="total-coef">0</span></div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.coefficients div').forEach(coefDiv => {
+            coefDiv.addEventListener('click', function() {
+                const parentMatch = this.closest('.match');
+                const teamA = parentMatch.getAttribute('data-team-a');
+                const teamB = parentMatch.getAttribute('data-team-b');
+                const matchId = parentMatch.getAttribute('data-match-id');
+                const coef = this.getAttribute('data-coef');
+                const result = this.textContent;
+
+                // If the clicked coefficient is already selected, deselect it
+                if (this.classList.contains('selected')) {
+                    this.classList.remove('selected');
+                    const chosenTeamsDiv = document.querySelector('.chosen-teams');
+                    const betItem = chosenTeamsDiv.querySelector(`[data-team-a="${teamA}"][data-team-b="${teamB}"]`);
+                    if (betItem) {
+                        chosenTeamsDiv.removeChild(betItem);
+                    }
+                } else {
+                    // Deselect other coefficients in the same match
+                    parentMatch.querySelectorAll('.coefficients div').forEach(div => div.classList.remove('selected'));
+
+                    // Select the clicked coefficient
+                    this.classList.add('selected');
+
+                    // Update the bet box
+                    const chosenTeamsDiv = document.querySelector('.chosen-teams');
+                    let betItem = chosenTeamsDiv.querySelector(`[data-team-a="${teamA}"][data-team-b="${teamB}"]`);
+                    if (!betItem) {
+                        betItem = document.createElement('div');
+                        betItem.setAttribute('data-team-a', teamA);
+                        betItem.setAttribute('data-team-b', teamB);
+                        betItem.setAttribute('data-match-id', matchId);
+                        chosenTeamsDiv.appendChild(betItem);
+                    }
+                    betItem.textContent = `${teamA} vs ${teamB}: ${result} (Coefficient: ${coef})`;
+
+                    // Update hidden fields in form
+                    document.getElementById('matchId').value = matchId;
+                    document.getElementById('teamA').value = teamA;
+                    document.getElementById('teamB').value = teamB;
+                    document.getElementById('selectedCoefficient').value = result;
+                    document.getElementById('coefficient').value = coef;
+                }
+
+                // Update total coefficient
+                updateTotalCoefficient();
+            });
+        });
+
+        function updateTotalCoefficient() {
+            let totalCoef = 1;
+            document.querySelectorAll('.chosen-teams div').forEach(betItem => {
+                const coef = parseFloat(betItem.textContent.match(/\(Coefficient: (.*?)\)/)[1]);
+                totalCoef *= coef;
+            });
+            document.getElementById('total-coef').textContent = totalCoef.toFixed(2);
+            document.getElementById('totalCoefficient').value = totalCoef.toFixed(2);
+
+        }
+    </script>
+</body>
+</html>

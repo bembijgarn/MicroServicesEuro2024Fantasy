@@ -139,5 +139,22 @@ namespace Euro2024Stat.MatchAPI.Controllers
             }
             return _response;
         }
+
+        [HttpGet]
+        [Route("Match/GetLastMatchId")]
+        public async Task<ResponseDto> GetLastMatchId()
+        {
+            try
+            {
+                var lastMatchId = await _mediator.Send(new GetLastMatchIdQuery());
+                _response.Result = lastMatchId;
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.Message = ex.Message;
+            }
+            return _response;
+        }
     }
 }

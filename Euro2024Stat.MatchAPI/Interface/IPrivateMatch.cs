@@ -11,6 +11,7 @@ namespace Euro2024Stat.MatchAPI.Interface
         Task <List<int>> GetPlayoffMatchCountryIds(string group);
         Task<List<int>> GetPlayoffTeamIds(string group);
         Task<int> GetWinnerTeamId(string group);
+        Task<int> GetLastMatchId();
         
     }
 }

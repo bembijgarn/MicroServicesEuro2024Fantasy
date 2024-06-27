@@ -18,6 +18,7 @@ builder.Services.AddScoped<IToken, TokenService>();
 builder.Services.AddScoped<IWallet, WalletService>();
 builder.Services.AddScoped<IFantasy, FantasyService>();
 builder.Services.AddScoped<ITransaction, TransactionService>();
+builder.Services.AddScoped<IBet, BetService>();
 
 
 
@@ -31,6 +32,7 @@ ApiHelper.AuthAPIBase = builder.Configuration["ServiceUrls:AuthAPI"];
 ApiHelper.WalletAPIBase = builder.Configuration["ServiceUrls:WalletAPI"];
 ApiHelper.FantasyAPIBase = builder.Configuration["ServiceUrls:FantasyAPI"];
 ApiHelper.TransactionApiBase = builder.Configuration["ServiceUrls:TransactionAPI"];
+ApiHelper.BetAPIBase = builder.Configuration["ServiceUrls:BetAPI"];
 
 
 
