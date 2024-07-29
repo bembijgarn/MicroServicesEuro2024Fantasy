@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" Version="6.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.7" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+    <PackageReference Include="Moq" Version="4.20.70" />
+    <PackageReference Include="xunit" Version="2.5.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.5.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Euro2024Stat.BetAPI\Euro2024Stat.BetAPI.csproj" />
+    <ProjectReference Include="..\Euro2024Stat.CountryAPI\Euro2024Stat.CountryAPI.csproj" />
+    <ProjectReference Include="..\EURO2024Stat.DATA\EURO2024Stat.DATA.csproj" />
+    <ProjectReference Include="..\Euro2024Stat.FantasyAPI\Euro2024Stat.FantasyAPI.csproj" />
+    <ProjectReference Include="..\Euro2024Stat.MatchAPI\Euro2024Stat.MatchAPI.csproj" />
+    <ProjectReference Include="..\Euro2024Stat.PlayerAPI\Euro2024Stat.PlayerAPI.csproj" />
+    <ProjectReference Include="..\Euro2024Stat.WalletAPI\Euro2024Stat.WalletAPI.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+</Project>
